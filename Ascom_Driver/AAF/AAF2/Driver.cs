@@ -1,24 +1,31 @@
 //tabs=4
 // --------------------------------------------------------------------------------
-// TODO fill in this information for your driver, then remove this line!
-//
 // ASCOM Focuser driver for AAF2
 //
-// Description:	Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam 
-//				nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam 
-//				erat, sed diam voluptua. At vero eos et accusam et justo duo 
-//				dolores et ea rebum. Stet clita kasd gubergren, no sea takimata 
-//				sanctus est Lorem ipsum dolor sit amet.
+// Description:	This driver was written to support the Arduino-Ascom Focuser.
+//              The protocol used to communicate with the device is a custom protocol
+//              which will only work with that device. The device is based around an
+//              Arduino Nano and a stepper motor plus driver board.
+//              The Driver is built on the ASCOM focuser driver template.
+//              All code that communicates with the Arduino is contained in a separate
+//              class called AAF2. The minimum changes to Driver.cs have been made to aid future
+//              upgrades/rewrites and make it easier to see what's going on :-)
+//              All template code that has been modified is marked with a "// tekkydave" comment.
+//
+//              The complete source code for the Arduino sketch including communications protocol,
+//              schematics and parts list are on the project's SourceForge site at:
+//              http://sourceforge.net/projects/arduinoascomfocuser/
+//
 //
 // Implements:	ASCOM Focuser interface version: <To be completed by driver developer>
-// Author:		(XXX) Your N. Here <your@email.here>
+// Author:		tekkydave
 //
 // Edit Log:
 //
-// Date			Who	Vers	Description
-// -----------	---	-----	-------------------------------------------------------
-// dd-mmm-yyyy	XXX	6.0.0	Initial edit, created from ASCOM driver template
-// --------------------------------------------------------------------------------
+// Date			Who	        Vers	Description
+// -----------	----------  -----	-------------------------------------------------------
+// 01-06-2014	tekkydave	1.0.0	Initial edit, created from ASCOM driver template
+// ----------------------------------------------------------------------------------------
 //
 
 
@@ -49,10 +56,7 @@ namespace ASCOM.AAF2
     // The ClassInterface/None addribute prevents an empty interface called
     // _AAF2 from being created and used as the [default] interface
     //
-    // TODO Replace the not implemented exceptions with code to implement the function or
-    // throw the appropriate ASCOM exception.
-    //
-
+    
     /// <summary>
     /// ASCOM Focuser Driver for AAF2.
     /// </summary>
@@ -65,12 +69,11 @@ namespace ASCOM.AAF2
         /// ASCOM DeviceID (COM ProgID) for this driver.
         /// The DeviceID is used by ASCOM applications to load the driver at runtime.
         /// </summary>
-        internal static string driverID = "ASCOM.AAF2.Focuser";     // DMW
-        // TODO Change the descriptive string for your driver then remove this line
+        internal static string driverID = "ASCOM.AAF2.Focuser";     // tekkydave
         /// <summary>
         /// Driver description that displays in the ASCOM Chooser.
         /// </summary>
-        private static string driverDescription = "ASCOM Focuser Driver for AAF2.";     // DMW
+        private static string driverDescription = "ASCOM Focuser Driver for AAF2.";     // tekkydave
 
         internal static string comPortProfileName = "COM Port"; // Constants used for Profile persistence
         internal static string comPortDefault = "COM1";
@@ -104,9 +107,9 @@ namespace ASCOM.AAF2
         private TraceLogger tl;
 
         /// <summary>
-        /// DMW - AAF2 object to hold all custom code relating to Arduino device
+        /// tekkydave - AAF2 object to hold all custom code relating to Arduino device
         /// </summary>
-        private AAF2 aaf2;  // DMW
+        private AAF2 aaf2;  // tekkydave
 
         #endregion
 
@@ -118,7 +121,7 @@ namespace ASCOM.AAF2
         {
             ReadProfile(); // Read device configuration from the ASCOM Profile store
 
-            tl = new TraceLogger("c:\\trace\\AAF2\\Driver" + DateTime.Now.ToString("yyyyMMddHHmmss"), "AAF2_Driver");      // DMW - Added path to trace file
+            tl = new TraceLogger("c:\\trace\\AAF2\\Driver" + DateTime.Now.ToString("yyyyMMddHHmmss"), "AAF2_Driver");      // tekkydave - Added path to trace file
             tl.Enabled = traceState;
             tl.LogMessage("Focuser", "Starting initialisation");
 
@@ -126,7 +129,7 @@ namespace ASCOM.AAF2
             utilities = new Util(); //Initialise util object
             astroUtilities = new AstroUtils(); // Initialise astro utilities object
             //TODO: Implement your additional construction here
-            aaf2 = new AAF2(traceState);  // DMW - instantiate aaf2 object for Arduino calls, passing in the tracestate.
+            aaf2 = new AAF2(traceState);  // tekkydave - instantiate aaf2 object for Arduino calls, passing in the tracestate.
 
             tl.LogMessage("Focuser", "Completed initialisation");
         }
@@ -201,9 +204,9 @@ namespace ASCOM.AAF2
             // then all communication calls this function
             // you need something to ensure that only one command is in progress at a time
 
-            // throw new ASCOM.MethodNotImplementedException("CommandString");  // DMW - Deleted
+            // throw new ASCOM.MethodNotImplementedException("CommandString");  // tekkydave - Deleted
 
-            return aaf2.CommandString(command, raw);    // DMW - Call AAF2.CommandString
+            return aaf2.CommandString(command, raw);    // tekkydave - Call AAF2.CommandString
         }
 
         public void Dispose()
@@ -233,20 +236,20 @@ namespace ASCOM.AAF2
 
                 if (value)
                 {
-                    if (aaf2.isConnected())   // DMW - return if already connected
+                    if (aaf2.isConnected())   // tekkydave - return if already connected
                         return;
 
                     connectedState = true;
                     tl.LogMessage("Connected Set", "Connecting to port " + comPort);
                     // TODO connect to the device
-                    aaf2.connect(driverID);         // DMW - Connect to device
+                    aaf2.connect(driverID);         // tekkydave - Connect to device
                 }
                 else
                 {
                     connectedState = false;
                     tl.LogMessage("Connected Set", "Disconnecting from port " + comPort);
                     // TODO disconnect from the device
-                    aaf2.disconnect();      // DMW - Disconnect from device
+                    aaf2.disconnect();      // tekkydave - Disconnect from device
                 }
             }
         }
@@ -268,7 +271,7 @@ namespace ASCOM.AAF2
                 Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
                 // TODO customise this driver description
                 //string driverInfo = "Information about the driver itself. Version: " + String.Format(CultureInfo.InvariantCulture, "{0}.{1}", version.Major, version.Minor);
-                string driverInfo = aaf2.DriverInfo + " Version: " + String.Format(CultureInfo.InvariantCulture, "{0}.{1}", version.Major, version.Minor);   // DMW - replaced above line with my definition
+                string driverInfo = aaf2.DriverInfo + " Version: " + String.Format(CultureInfo.InvariantCulture, "{0}.{1}", version.Major, version.Minor);   // tekkydave - replaced above line with my definition
                 tl.LogMessage("DriverInfo Get", driverInfo);
                 return driverInfo;
             }
@@ -300,7 +303,7 @@ namespace ASCOM.AAF2
             get
             {
                 //string name = "Short driver name - please customise";
-                string name = aaf2.Name;    // DMW - replaced line above with call to AAF2
+                string name = aaf2.Name;    // tekkydave - replaced line above with call to AAF2
                 tl.LogMessage("Name Get", name);
                 return name;
             }
@@ -334,7 +337,7 @@ namespace ASCOM.AAF2
             {
                 tl.LogMessage("IsMoving Get", false.ToString());
                 // return false; // This focuser always moves instantaneously so no need for IsMoving ever to be True
-                return aaf2.isMoving();     // DMW - call AAF2.ismoving
+                return aaf2.isMoving();     // tekkydave - call AAF2.ismoving
             }
         }
 
@@ -373,7 +376,7 @@ namespace ASCOM.AAF2
         public void Move(int Position)
         {
             tl.LogMessage("Move", Position.ToString());
-            aaf2.setPosition(Position);     // DMW - call AAF2.setPosition to set target position
+            aaf2.setPosition(Position);     // tekkydave - call AAF2.setPosition to set target position
             focuserPosition = Position; // Set the focuser position
         }
 
@@ -389,8 +392,8 @@ namespace ASCOM.AAF2
         {
             get
             {
-                //tl.LogMessage("StepSize Get", "Not implemented");                      // DMW - replaced with call to AAF2.Stepsize
-                //throw new ASCOM.PropertyNotImplementedException("StepSize", false);    // DMW - replaced with call to AAF2.Stepsize
+                //tl.LogMessage("StepSize Get", "Not implemented");                      // tekkydave - replaced with call to AAF2.Stepsize
+                //throw new ASCOM.PropertyNotImplementedException("StepSize", false);    // tekkydave - replaced with call to AAF2.Stepsize
                 return aaf2.Stepsize;
             }
         }
