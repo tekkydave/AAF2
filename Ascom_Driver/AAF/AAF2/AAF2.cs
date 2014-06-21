@@ -18,8 +18,8 @@ namespace ASCOM.AAF2
         public AAF2(bool traceState)
         {
             tl = new TraceLogger("c:\\trace\\AAF2\\AAF2" + DateTime.Now.ToString("yyyyMMddHHmmss"), "AAF2_aaf2");      // Trace Logger
-             tl.Enabled = traceState;
-             tl.LogMessage("AAF2", "Constructed");
+            tl.Enabled = traceState;
+            tl.LogMessage("AAF2", "Constructed");
         }
 
         ~AAF2() // Destructor
