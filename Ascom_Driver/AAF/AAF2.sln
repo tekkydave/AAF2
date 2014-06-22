@@ -4,10 +4,18 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AAF2", "AAF2\AAF2.csproj", "{DD8624FA-7E84-4364-80D0-2DAB637A3765}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AAF2Test", "AAF2Test\AAF2Test.csproj", "{0224C786-2015-4AB4-90C1-52851401A2F5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DD8624FA-7E84-4364-80D0-2DAB637A3765} = {DD8624FA-7E84-4364-80D0-2DAB637A3765}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4859A217-E5A2-4B7A-B377-720AE1337DD4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FocusAAF2", "FocusAAF2\FocusAAF2.csproj", "{672677E8-BE2E-4EB2-AF9D-B820FC95AD34}"
+	ProjectSection(ProjectDependencies) = postProject
+		{DD8624FA-7E84-4364-80D0-2DAB637A3765} = {DD8624FA-7E84-4364-80D0-2DAB637A3765}
+	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "AAF2Setup", "Setup1\Setup1.vdproj", "{474B2EE7-EE48-4C6D-ACE0-49C19F5F3E92}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -53,6 +61,12 @@ Global
 		{672677E8-BE2E-4EB2-AF9D-B820FC95AD34}.Release|Mixed Platforms.Build.0 = Release|x86
 		{672677E8-BE2E-4EB2-AF9D-B820FC95AD34}.Release|x86.ActiveCfg = Release|x86
 		{672677E8-BE2E-4EB2-AF9D-B820FC95AD34}.Release|x86.Build.0 = Release|x86
+		{474B2EE7-EE48-4C6D-ACE0-49C19F5F3E92}.Debug|Any CPU.ActiveCfg = Debug
+		{474B2EE7-EE48-4C6D-ACE0-49C19F5F3E92}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{474B2EE7-EE48-4C6D-ACE0-49C19F5F3E92}.Debug|x86.ActiveCfg = Debug
+		{474B2EE7-EE48-4C6D-ACE0-49C19F5F3E92}.Release|Any CPU.ActiveCfg = Release
+		{474B2EE7-EE48-4C6D-ACE0-49C19F5F3E92}.Release|Mixed Platforms.ActiveCfg = Release
+		{474B2EE7-EE48-4C6D-ACE0-49C19F5F3E92}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
