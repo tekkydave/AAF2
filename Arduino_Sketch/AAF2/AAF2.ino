@@ -8,11 +8,12 @@
 //------ Change Log ------------------------------------------------
 //  Version    Date        Change
 //  0.0.2      26/05/2014  Initial - copied from Windows version
+//  2.0.0      22/06/2014  Renumbered to match Ascom Driver Numbering
 //
 //------------------------------------------------------------------
   
 const String programName = "Arduino Focuser";
-const String programVersion = "0.0.2";
+const String programVersion = "2.0.0";
 
 const int    motorPins[4] = {7,8,9,10};       // Declare pins to drive motor control board
 const int    motorSpeedLo = 16000;            // Motor step delay for Lo speed (uS)
