@@ -60,37 +60,37 @@
             // rtbLog
             // 
             this.rtbLog.HideSelection = false;
-            this.rtbLog.Location = new System.Drawing.Point(13, 277);
+            this.rtbLog.Location = new System.Drawing.Point(13, 231);
             this.rtbLog.Name = "rtbLog";
             this.rtbLog.ReadOnly = true;
             this.rtbLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.rtbLog.Size = new System.Drawing.Size(438, 191);
+            this.rtbLog.Size = new System.Drawing.Size(485, 237);
             this.rtbLog.TabIndex = 1;
             this.rtbLog.Text = "";
             // 
             // btnDown
             // 
-            this.btnDown.Location = new System.Drawing.Point(137, 129);
+            this.btnDown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.btnDown.Location = new System.Drawing.Point(171, 129);
             this.btnDown.Name = "btnDown";
-            this.btnDown.Size = new System.Drawing.Size(46, 36);
+            this.btnDown.Size = new System.Drawing.Size(77, 27);
             this.btnDown.TabIndex = 2;
-            this.btnDown.Text = "Down";
-            this.btnDown.UseVisualStyleBackColor = true;
+            this.btnDown.UseVisualStyleBackColor = false;
             this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
             // 
             // btnUp
             // 
-            this.btnUp.Location = new System.Drawing.Point(187, 129);
+            this.btnUp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btnUp.Location = new System.Drawing.Point(254, 129);
             this.btnUp.Name = "btnUp";
-            this.btnUp.Size = new System.Drawing.Size(46, 36);
+            this.btnUp.Size = new System.Drawing.Size(77, 27);
             this.btnUp.TabIndex = 2;
-            this.btnUp.Text = "Up";
-            this.btnUp.UseVisualStyleBackColor = true;
+            this.btnUp.UseVisualStyleBackColor = false;
             this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
             // 
             // btnClearLog
             // 
-            this.btnClearLog.Location = new System.Drawing.Point(376, 248);
+            this.btnClearLog.Location = new System.Drawing.Point(427, 202);
             this.btnClearLog.Name = "btnClearLog";
             this.btnClearLog.Size = new System.Drawing.Size(75, 23);
             this.btnClearLog.TabIndex = 3;
@@ -118,39 +118,40 @@
             // 
             // txtPosition
             // 
+            this.txtPosition.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.txtPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPosition.ForeColor = System.Drawing.Color.Blue;
-            this.txtPosition.Location = new System.Drawing.Point(137, 94);
+            this.txtPosition.Location = new System.Drawing.Point(171, 46);
             this.txtPosition.Name = "txtPosition";
             this.txtPosition.ReadOnly = true;
-            this.txtPosition.Size = new System.Drawing.Size(94, 29);
+            this.txtPosition.Size = new System.Drawing.Size(160, 29);
             this.txtPosition.TabIndex = 6;
             this.txtPosition.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtPosition.TextChanged += new System.EventHandler(this.txtPosition_TextChanged);
             // 
             // btnDownN1
             // 
-            this.btnDownN1.Location = new System.Drawing.Point(87, 129);
+            this.btnDownN1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.btnDownN1.Location = new System.Drawing.Point(88, 129);
             this.btnDownN1.Name = "btnDownN1";
-            this.btnDownN1.Size = new System.Drawing.Size(46, 36);
+            this.btnDownN1.Size = new System.Drawing.Size(77, 27);
             this.btnDownN1.TabIndex = 2;
-            this.btnDownN1.Text = "DownN1";
-            this.btnDownN1.UseVisualStyleBackColor = true;
+            this.btnDownN1.UseVisualStyleBackColor = false;
             this.btnDownN1.Click += new System.EventHandler(this.btnDownN1_Click);
             // 
             // btnUpN1
             // 
-            this.btnUpN1.Location = new System.Drawing.Point(238, 129);
+            this.btnUpN1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.btnUpN1.Location = new System.Drawing.Point(339, 129);
             this.btnUpN1.Name = "btnUpN1";
-            this.btnUpN1.Size = new System.Drawing.Size(46, 36);
+            this.btnUpN1.Size = new System.Drawing.Size(77, 27);
             this.btnUpN1.TabIndex = 7;
-            this.btnUpN1.Text = "UpN1";
-            this.btnUpN1.UseVisualStyleBackColor = true;
+            this.btnUpN1.UseVisualStyleBackColor = false;
             this.btnUpN1.Click += new System.EventHandler(this.btnUpN1_Click);
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(13, 248);
+            this.btnExit.Location = new System.Drawing.Point(13, 202);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(104, 23);
             this.btnExit.TabIndex = 8;
@@ -160,23 +161,23 @@
             // 
             // txtStepsizeN1
             // 
-            this.txtStepsizeN1.Location = new System.Drawing.Point(87, 172);
+            this.txtStepsizeN1.Location = new System.Drawing.Point(88, 162);
             this.txtStepsizeN1.Name = "txtStepsizeN1";
-            this.txtStepsizeN1.Size = new System.Drawing.Size(45, 20);
+            this.txtStepsizeN1.Size = new System.Drawing.Size(77, 20);
             this.txtStepsizeN1.TabIndex = 9;
             this.txtStepsizeN1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtStepsizeN1.TextChanged += new System.EventHandler(this.txtStepsizeN1_TextChanged);
             // 
             // txtGoto
             // 
-            this.txtGoto.Location = new System.Drawing.Point(282, 102);
+            this.txtGoto.Location = new System.Drawing.Point(203, 90);
             this.txtGoto.Name = "txtGoto";
-            this.txtGoto.Size = new System.Drawing.Size(86, 20);
+            this.txtGoto.Size = new System.Drawing.Size(128, 20);
             this.txtGoto.TabIndex = 10;
             // 
             // btnGoto
             // 
-            this.btnGoto.Location = new System.Drawing.Point(374, 100);
+            this.btnGoto.Location = new System.Drawing.Point(339, 90);
             this.btnGoto.Name = "btnGoto";
             this.btnGoto.Size = new System.Drawing.Size(49, 23);
             this.btnGoto.TabIndex = 11;
@@ -186,38 +187,38 @@
             // 
             // btnDownN2
             // 
-            this.btnDownN2.Location = new System.Drawing.Point(36, 129);
+            this.btnDownN2.BackColor = System.Drawing.Color.Red;
+            this.btnDownN2.Location = new System.Drawing.Point(6, 129);
             this.btnDownN2.Name = "btnDownN2";
-            this.btnDownN2.Size = new System.Drawing.Size(46, 36);
+            this.btnDownN2.Size = new System.Drawing.Size(77, 27);
             this.btnDownN2.TabIndex = 12;
-            this.btnDownN2.Text = "Down N2";
-            this.btnDownN2.UseVisualStyleBackColor = true;
+            this.btnDownN2.UseVisualStyleBackColor = false;
             this.btnDownN2.Click += new System.EventHandler(this.btnDownN2_Click);
             // 
             // txtStepsizeN2
             // 
-            this.txtStepsizeN2.Location = new System.Drawing.Point(36, 172);
+            this.txtStepsizeN2.Location = new System.Drawing.Point(6, 162);
             this.txtStepsizeN2.Name = "txtStepsizeN2";
-            this.txtStepsizeN2.Size = new System.Drawing.Size(45, 20);
+            this.txtStepsizeN2.Size = new System.Drawing.Size(75, 20);
             this.txtStepsizeN2.TabIndex = 13;
             this.txtStepsizeN2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtStepsizeN2.TextChanged += new System.EventHandler(this.txtStepsizeN2_TextChanged);
             // 
             // btnUpN2
             // 
-            this.btnUpN2.Location = new System.Drawing.Point(291, 129);
+            this.btnUpN2.BackColor = System.Drawing.Color.Lime;
+            this.btnUpN2.Location = new System.Drawing.Point(425, 129);
             this.btnUpN2.Name = "btnUpN2";
-            this.btnUpN2.Size = new System.Drawing.Size(46, 36);
+            this.btnUpN2.Size = new System.Drawing.Size(77, 27);
             this.btnUpN2.TabIndex = 14;
-            this.btnUpN2.Text = "Up N2";
-            this.btnUpN2.UseVisualStyleBackColor = true;
+            this.btnUpN2.UseVisualStyleBackColor = false;
             this.btnUpN2.Click += new System.EventHandler(this.btnUpN2_Click);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(486, 480);
+            this.ClientSize = new System.Drawing.Size(510, 480);
             this.Controls.Add(this.btnUpN2);
             this.Controls.Add(this.txtStepsizeN2);
             this.Controls.Add(this.btnDownN2);

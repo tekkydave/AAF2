@@ -70,17 +70,16 @@ namespace FocusTest
             {
                 System.Threading.Thread.Sleep(333);
             }
-
         }
 
         internal void moveDown()
         {
-            focuser.Move(focuser.Position - 1);
+            moveTo(focuser.Position - 1);
         }
 
         internal void moveUp()
         {
-            focuser.Move(focuser.Position + 1);
+            moveTo(focuser.Position + 1);
         }
 
         public string getPosition()
@@ -88,7 +87,23 @@ namespace FocusTest
             return focuser.Position.ToString();
         }
 
-        public int StepsizeN1 {
+
+        internal void commandSend(String s)
+        {
+            rtbLog.AppendText("-- CommandSend START --\n");
+            rtbLog.AppendText("  Sent: " + s + "\n");
+            String r = focuser.CommandString(s, true);
+            rtbLog.AppendText("   Received: " + r + "\n");
+            rtbLog.AppendText("--  CommandSend END  --\n");
+        }
+
+        internal bool isMoving()
+        {
+            return focuser.IsMoving;
+        }
+
+        public int StepsizeN1
+        {
             get
             {
                 return stepsizeN1;
@@ -98,23 +113,6 @@ namespace FocusTest
             {
                 stepsizeN1 = value;
             }
-        }
-
-
-        internal void commandSend(String s)
-        {
-
-            rtbLog.AppendText("-- CommandSend START --\n");
-            rtbLog.AppendText("  Sent: " + s + "\n");
-            String r = focuser.CommandString(s, true);
-            rtbLog.AppendText("   Received: " + r + "\n");
-            rtbLog.AppendText("--  CommandSend END  --\n");
-
-        }
-
-        internal bool isMoving()
-        {
-            return focuser.IsMoving;
         }
 
         public int StepsizeN2

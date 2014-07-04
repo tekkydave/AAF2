@@ -16,18 +16,10 @@ namespace FocusTest
         public frmMain()
         {
             InitializeComponent();
-            btnDown.Enabled = false;
-            btnUp.Enabled = false;
-            btnDownN1.Enabled = false;
-            btnUpN1.Enabled = false;
-            btnDownN2.Enabled = false;
-            btnUpN2.Enabled = false;
+
+            enableControls(false);
+
             btnConnect.Enabled = false;
-            txtStepsizeN1.Enabled = false;
-            txtStepsizeN2.Enabled = false;
-            txtGoto.Enabled = false;
-            btnGoto.Enabled = false;
-            txtPosition.Enabled = false;
 
             // setup focuser device
             device = new Device(rtbLog);
@@ -51,22 +43,23 @@ namespace FocusTest
                 if (device.connect())
                 {
                     btnConnect.Text = "Disconnect";
-                    txtPosition.Text = device.getPosition();
-                    btnDown.Enabled = true;
-                    btnUp.Enabled = true;
-                    btnDownN1.Enabled = true;
-                    btnUpN1.Enabled = true;
-                    btnDownN2.Enabled = true;
-                    btnUpN2.Enabled = true;
-                    txtStepsizeN1.Enabled = true;
-                    txtStepsizeN2.Enabled = true;
-                    txtGoto.Enabled = true;
-                    btnGoto.Enabled = true;
-                    txtPosition.Enabled = true;
+                    string pos = device.getPosition();
+                    txtPosition.Text = pos;
+
+                    enableControls(true);
+
                     txtStepsizeN1.Text = Convert.ToString(device.StepsizeN1);
                     txtStepsizeN2.Text = Convert.ToString(device.StepsizeN2);
+                    btnUp.Text = ">";
+                    btnDown.Text = "<";
+                    btnUpN1.Text = "> " + txtStepsizeN1.Text;
+                    btnDownN1.Text = "< " + txtStepsizeN1.Text;
+                    btnUpN2.Text = ">> " + txtStepsizeN2.Text;
+                    btnDownN2.Text = "<< " + txtStepsizeN2.Text;
 
                     rtbLog.AppendText(Utility.currentTime() + " - Connected to Device\n");
+                    rtbLog.AppendText(Utility.currentTime() + " - Current Position = " + pos + "\n");
+
                 }
             }
             else
@@ -74,17 +67,8 @@ namespace FocusTest
                 device.disconnect();
 
                 btnConnect.Text = "Connect";
-                btnDown.Enabled = false;
-                btnUp.Enabled = false;
-                btnDownN1.Enabled = false;
-                btnUpN1.Enabled = false;
-                btnDownN2.Enabled = false;
-                btnUpN2.Enabled = false;
-                txtStepsizeN1.Enabled = false;
-                txtStepsizeN2.Enabled = false;
-                txtGoto.Enabled = false;
-                btnGoto.Enabled = false;
-                txtPosition.Enabled = false;
+
+                enableControls(false);
 
                 rtbLog.AppendText(Utility.currentTime() + " - Disconnected from Device\n");
             }
@@ -132,7 +116,7 @@ namespace FocusTest
             {
                 device.moveUp();
                 string pos = device.getPosition();
-                txtPosition.Text = device.getPosition();
+                txtPosition.Text = pos;
                 rtbLog.AppendText(Utility.currentTime() + " - Up 1 to " + pos + "\n");
             }
         }
@@ -182,11 +166,15 @@ namespace FocusTest
         private void txtStepsizeN1_TextChanged(object sender, EventArgs e)
         {
             device.StepsizeN1 = Convert.ToInt32(txtStepsizeN1.Text);
+            btnUpN1.Text = "> " + txtStepsizeN1.Text;
+            btnDownN1.Text = "< " + txtStepsizeN1.Text;
         }
 
         private void txtStepsizeN2_TextChanged(object sender, EventArgs e)
         {
             device.StepsizeN2 = Convert.ToInt32(txtStepsizeN2.Text);
+            btnUpN2.Text = ">> " + txtStepsizeN2.Text;
+            btnDownN2.Text = "<< " + txtStepsizeN2.Text;
         }
 
         private void btnGoto_Click(object sender, EventArgs e)
@@ -228,6 +216,22 @@ namespace FocusTest
                 rtbLog.AppendText(Utility.currentTime() + " - Up " + Convert.ToString(device.StepsizeN2) + " to " + newPos + "\n");
             }
         }
+
+        private void enableControls(Boolean enable)
+        {
+            btnDown.Enabled = enable;
+            btnUp.Enabled = enable;
+            btnDownN1.Enabled = enable;
+            btnUpN1.Enabled = enable;
+            btnDownN2.Enabled = enable;
+            btnUpN2.Enabled = enable;
+            btnGoto.Enabled = enable;
+            txtStepsizeN1.Enabled = enable;
+            txtStepsizeN2.Enabled = enable;
+            txtGoto.Enabled = enable;
+            txtPosition.Enabled = enable;
+        }
+
 
 
     }
