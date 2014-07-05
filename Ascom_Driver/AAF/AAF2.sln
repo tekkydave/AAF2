@@ -11,6 +11,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4859A217-E5A2-4B7A-B377-720AE1337DD4}"
 	ProjectSection(SolutionItems) = preProject
 		AAF2.ico = AAF2.ico
+		..\..\readme.txt = ..\..\readme.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FocusAAF2", "FocusAAF2\FocusAAF2.csproj", "{672677E8-BE2E-4EB2-AF9D-B820FC95AD34}"
