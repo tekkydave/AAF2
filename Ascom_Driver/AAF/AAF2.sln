@@ -21,6 +21,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FocusAAF2", "FocusAAF2\Focu
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "AAF2Setup", "Setup1\Setup1.vdproj", "{474B2EE7-EE48-4C6D-ACE0-49C19F5F3E92}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Conformance", "Conformance", "{4774A1D6-2FF1-4CCC-A141-C89848F9FA35}"
+	ProjectSection(SolutionItems) = preProject
+		..\Conformance Checks\V2.1.1.txt = ..\Conformance Checks\V2.1.1.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True

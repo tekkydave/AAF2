@@ -1,0 +1,59 @@
+ConformanceCheck ASCOM Device Conformance Checker Version 6.0.0.45
+ConformanceCheck Running on ASCOM Platform 6.1 Build: 6.1.28126.2567
+ 
+ConformanceCheck Driver ProgID: ASCOM.AAF2.Focuser
+ 
+Error handling 
+Error number for "Not Implemented" is: 80040400
+Error number for "Invalid Value 1" is: 80040404
+Error number for "Value Not Set 1" is: 80040402
+Error number for "Value Not Set 2" is: 80040403
+Error messages will not be interpreted to infer state.
+ 
+15:24:42.384 Driver Access Checks          OK       
+15:24:43.071 AccessChecks                  OK       Successfully created driver using late binding
+15:24:45.338 AccessChecks                  OK       Successfully connected using late binding
+15:24:45.338 AccessChecks                  INFO     The driver is a COM object
+15:24:46.010 AccessChecks                  INFO     Device does not expose IFocuser interface
+15:24:48.151 AccessChecks                  INFO     Device exposes IFocuserV2 interface
+15:24:48.323 AccessChecks                  OK       Successfully created driver using driver access toolkit
+15:24:50.432 AccessChecks                  OK       Successfully connected using driver access toolkit
+ 
+Conform is using ASCOM.DriverAccess.Focuser to get a Focuser object
+15:24:50.589 ConformanceCheck              OK       Driver instance created successfully
+15:24:52.714 ConformanceCheck              OK       Connected OK
+ 
+Common Driver Methods 
+15:24:52.761 InterfaceVersion              OK       2
+15:24:52.761 Connected                     OK       True
+15:24:52.776 Description                   OK       ASCOM Focuser Driver for AAF2.
+15:24:52.792 DriverInfo                    OK       Ascom-Arduino Focuser V2. Version: 6.0
+15:24:52.792 DriverVersion                 OK       6.0
+15:24:52.807 Name                          OK       AAF2
+15:24:52.823 CommandString                 INFO     Conform cannot test the CommandString method
+15:24:52.839 CommandBlind                  INFO     Conform cannot test the CommandBlind method
+15:24:52.854 CommandBool                   INFO     Conform cannot test the CommandBool method
+15:24:52.854 Action                        INFO     Conform cannot test the Action method
+15:24:52.886 SupportedActions              OK       Driver returned an empty action list
+ 
+Properties 
+15:24:52.917 Absolute                      OK       True
+15:24:53.229 IsMoving                      OK       False
+15:24:53.229 MaxStep                       OK       10000
+15:24:53.245 MaxIncrement                  OK       10000
+15:24:53.261 Position                      OK       0
+15:24:53.276 StepSize                      OK       1
+15:24:53.292 TempCompAvailable             OK       False
+15:24:53.307 TempComp Read                 OK       False
+15:24:53.339 TempComp Write                OK       .NET Not implemented exception correctly raised as expected
+15:24:53.354 Temperature                   OK       .NET Temperature is not supported by this focuser
+ 
+Methods 
+15:24:53.401 Halt                          OK       .NET Exception - Halt is not supported by this focuser
+15:24:53.714 Move                                   Moving to position: 1000
+15:25:13.780 Move                          OK       Asynchronous move found
+15:25:13.780 Move                          OK       Absolute move OK
+ 
+Conformance test complete 
+ 
+No errors, warnings or issues found: your driver passes ASCOM validation!! 
