@@ -118,7 +118,7 @@
             // 
             // txtPosition
             // 
-            this.txtPosition.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtPosition.BackColor = System.Drawing.Color.LightGoldenrodYellow;
             this.txtPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPosition.ForeColor = System.Drawing.Color.Blue;
             this.txtPosition.Location = new System.Drawing.Point(171, 46);
@@ -253,7 +253,6 @@
         private System.Windows.Forms.Button btnClearLog;
         private System.Windows.Forms.Button btnChoose;
         private System.Windows.Forms.TextBox txtFocuser;
-        private System.Windows.Forms.TextBox txtPosition;
         private System.Windows.Forms.Button btnDownN1;
         private System.Windows.Forms.Button btnUpN1;
         private System.Windows.Forms.Button btnExit;
@@ -263,6 +262,7 @@
         private System.Windows.Forms.Button btnDownN2;
         private System.Windows.Forms.TextBox txtStepsizeN2;
         private System.Windows.Forms.Button btnUpN2;
+        private System.Windows.Forms.TextBox txtPosition;
 
     }
 }
