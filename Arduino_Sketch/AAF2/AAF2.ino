@@ -9,6 +9,7 @@
 //  Version    Date        Change
 //  0.0.2      26/05/2014  Initial - copied from Windows version
 //  2.0.0      22/06/2014  Renumbered to match Ascom Driver Numbering
+//  2.0.1      09/08/2014  Initial position set to 1000
 //
 //------------------------------------------------------------------
   
@@ -152,6 +153,9 @@ void setup()
   // reserve 200 bytes for the ASCOM driver inputString:
   inputString.reserve(200);
 
+  // Set initial position to 1000. Quick fix to avoid negative positions.
+  currentPosition = 1000;
+  targetPosition = 1000;
 }
 //------------------------------------------------------------------
 
