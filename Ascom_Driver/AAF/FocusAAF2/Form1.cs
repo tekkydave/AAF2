@@ -232,6 +232,11 @@ namespace FocusTest
             txtPosition.Enabled = enable;
         }
 
+        private void txtFocuser_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
 
     }
 }

@@ -115,6 +115,7 @@
             this.txtFocuser.ReadOnly = true;
             this.txtFocuser.Size = new System.Drawing.Size(317, 20);
             this.txtFocuser.TabIndex = 5;
+            this.txtFocuser.TextChanged += new System.EventHandler(this.txtFocuser_TextChanged);
             // 
             // txtPosition
             // 
