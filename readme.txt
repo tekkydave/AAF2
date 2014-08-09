@@ -20,7 +20,7 @@ Changes in Version 2.1.2
 ------------------------
 Changes to prevent negative positions:
 Arduino Sketch - This has been updated to have a start position of 1000.
-Ascom Driver   - This has been amended so negative positions cannot be achieved.
+  Ascom Driver - This has been amended so negative positions cannot be achieved.
 
 Changes in Version 2.1.1
 ------------------------
