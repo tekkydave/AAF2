@@ -313,7 +313,7 @@ namespace ASCOM.AAF2
 
         #region IFocuser Implementation
 
-        private int focuserPosition = 0; // Class level variable to hold the current focuser position
+        private int focuserPosition = 1000; // Class level variable to hold the current focuser position
         private const int focuserSteps = 10000;
 
         public bool Absolute
@@ -376,6 +376,11 @@ namespace ASCOM.AAF2
         public void Move(int Position)
         {
             tl.LogMessage("Move", Position.ToString());
+
+            // Stop focuserPosition being set to negative values
+            if (Position < 0)
+                Position = 0;
+
             aaf2.setPosition(Position);     // tekkydave - call AAF2.setPosition to set target position
             focuserPosition = Position; // Set the focuser position
         }
