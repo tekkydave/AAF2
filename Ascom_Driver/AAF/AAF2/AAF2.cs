@@ -117,12 +117,32 @@ namespace ASCOM.AAF2
             }
         }
 
-        public void setPosition(int Position)
+        public void setInitialPosition(int Position)
+        {
+            string command = "I" + Position.ToString() + "#";
+            tl.LogMessage("AAF2.setInitialPosition", "Sending: " + command);
+            string r = CommandString(command, true);
+            tl.LogMessage("AAF2.setInitialPosition", "Received: " + r);
+        }
+
+        public void setTargetPosition(int Position)
         {
             string command = "T" + Position.ToString() + "#";
             tl.LogMessage("AAF2.setPosition", "Sending: " + command);
             string r = CommandString(command, true);
             tl.LogMessage("AAF2.setPosition", "Received: " + r);
+        }
+
+        public int getPosition()
+        {
+            string command = "P" + "#";
+            tl.LogMessage("AAF2.getPosition", "Sending: " + command);
+            string r = CommandString(command, true);
+            tl.LogMessage("AAF2.getPosition", "Received: " + r);
+            string[] w = r.Split(':');
+            string p = w[0].Substring(1);
+            tl.LogMessage("AAF2.getPosition", "Position = " + p);
+            return Int32.Parse(p);
         }
 
         internal bool isMoving()
@@ -152,7 +172,13 @@ namespace ASCOM.AAF2
             return result;
         }
 
-
-
+        internal void halt()
+        {
+            string command = "H#";
+            tl.LogMessage("AAF2.halt", "Sending: " + command);
+            string r = CommandString(command, true);
+            tl.LogMessage("AAF2.halt", "Received: " + r);
+            tl.LogMessage("AAF2.halt", "Focuser has stopped");
+        }
     }
 }

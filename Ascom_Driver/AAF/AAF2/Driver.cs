@@ -82,6 +82,7 @@ namespace ASCOM.AAF2
 
         internal static string comPort; // Variables to hold the currrent device configuration
         internal static bool traceState;
+        internal static int savedPosition; // tekkydave - to hold position passed from setup dialog or between disconnect / reconnects
 
         #endregion
 
@@ -130,7 +131,6 @@ namespace ASCOM.AAF2
             astroUtilities = new AstroUtils(); // Initialise astro utilities object
             //TODO: Implement your additional construction here
             aaf2 = new AAF2(traceState);  // tekkydave - instantiate aaf2 object for Arduino calls, passing in the tracestate.
-
             tl.LogMessage("Focuser", "Completed initialisation");
         }
 
@@ -243,12 +243,18 @@ namespace ASCOM.AAF2
                     tl.LogMessage("Connected Set", "Connecting to port " + comPort);
                     // TODO connect to the device
                     aaf2.connect(driverID);         // tekkydave - Connect to device
+
+                    // set initial position to saved position (from setup dialog or previous disconnect)
+                    aaf2.setInitialPosition(savedPosition);
+
+                    focuserPosition = aaf2.getPosition();   // get current position
                 }
                 else
                 {
                     connectedState = false;
                     tl.LogMessage("Connected Set", "Disconnecting from port " + comPort);
                     // TODO disconnect from the device
+                    savedPosition = aaf2.getPosition();     // tekkydave - save position for reconnections
                     aaf2.disconnect();      // tekkydave - Disconnect from device
                 }
             }
@@ -313,7 +319,7 @@ namespace ASCOM.AAF2
 
         #region IFocuser Implementation
 
-        private int focuserPosition = 1000; // Class level variable to hold the current focuser position
+        private int focuserPosition; // Class level variable to hold the current focuser position
         private const int focuserSteps = 10000;
 
         public bool Absolute
@@ -327,8 +333,9 @@ namespace ASCOM.AAF2
 
         public void Halt()
         {
-            tl.LogMessage("Halt", "Not implemented");
-            throw new ASCOM.MethodNotImplementedException("Halt");
+            tl.LogMessage("Halt", "Stopping Focuser movement.");
+            aaf2.halt();
+            focuserPosition = aaf2.getPosition();   // amend focuserPosition to new position
         }
 
         public bool IsMoving
@@ -381,7 +388,7 @@ namespace ASCOM.AAF2
             if (Position < 0)
                 Position = 0;
 
-            aaf2.setPosition(Position);     // tekkydave - call AAF2.setPosition to set target position
+            aaf2.setTargetPosition(Position);     // tekkydave - call AAF2.setPosition to set target position
             focuserPosition = Position; // Set the focuser position
         }
 

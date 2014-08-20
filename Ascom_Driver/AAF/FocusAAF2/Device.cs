@@ -66,10 +66,10 @@ namespace FocusTest
         {
             focuser.Move(p);
             // device is now moving - wait until not moving
-            while (isMoving())
-            {
-                System.Threading.Thread.Sleep(333);
-            }
+            //while (isMoving())
+            //{
+            //    System.Threading.Thread.Sleep(333);
+            //}
         }
 
         internal void moveDown()
@@ -128,6 +128,9 @@ namespace FocusTest
             }
         }
 
-
+        internal void halt()
+        {
+            focuser.Halt();
+        }
     }
 }

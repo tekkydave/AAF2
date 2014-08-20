@@ -45,6 +45,7 @@
             this.btnDownN2 = new System.Windows.Forms.Button();
             this.txtStepsizeN2 = new System.Windows.Forms.TextBox();
             this.btnUpN2 = new System.Windows.Forms.Button();
+            this.btnHalt = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnConnect
@@ -215,11 +216,22 @@
             this.btnUpN2.UseVisualStyleBackColor = false;
             this.btnUpN2.Click += new System.EventHandler(this.btnUpN2_Click);
             // 
+            // btnHalt
+            // 
+            this.btnHalt.Location = new System.Drawing.Point(402, 90);
+            this.btnHalt.Name = "btnHalt";
+            this.btnHalt.Size = new System.Drawing.Size(49, 23);
+            this.btnHalt.TabIndex = 15;
+            this.btnHalt.Text = "Halt";
+            this.btnHalt.UseVisualStyleBackColor = true;
+            this.btnHalt.Click += new System.EventHandler(this.btnHalt_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(510, 480);
+            this.Controls.Add(this.btnHalt);
             this.Controls.Add(this.btnUpN2);
             this.Controls.Add(this.txtStepsizeN2);
             this.Controls.Add(this.btnDownN2);
@@ -264,6 +276,7 @@
         private System.Windows.Forms.TextBox txtStepsizeN2;
         private System.Windows.Forms.Button btnUpN2;
         private System.Windows.Forms.TextBox txtPosition;
+        private System.Windows.Forms.Button btnHalt;
 
     }
 }

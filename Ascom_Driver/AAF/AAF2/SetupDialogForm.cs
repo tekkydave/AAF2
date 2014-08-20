@@ -41,6 +41,7 @@ namespace ASCOM.AAF2
 
             Focuser.comPort = comboBoxComPort.Text; // Update the state variables with results from the dialogue
             Focuser.traceState = chkTrace.Checked;
+            Focuser.savedPosition = Int32.Parse(txtInitialPosition.Text);
 
             using (ASCOM.Utilities.Profile p = new Utilities.Profile())
             {
@@ -72,6 +73,11 @@ namespace ASCOM.AAF2
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtInitialPosition_TextChanged(object sender, EventArgs e)
         {
 
         }

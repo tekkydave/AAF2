@@ -182,7 +182,7 @@ namespace FocusTest
             device.moveTo(Convert.ToInt32(txtGoto.Text));
             string newPos = device.getPosition();
             txtPosition.Text = newPos;
-            rtbLog.AppendText(Utility.currentTime() + " - Goto " + txtGoto.Text + ". Now at " + newPos + "\n");
+            rtbLog.AppendText(Utility.currentTime() + " - Goto " + txtGoto.Text + ".\n");
         }
 
         private void btnDownN2_Click(object sender, EventArgs e)
@@ -226,6 +226,7 @@ namespace FocusTest
             btnDownN2.Enabled = enable;
             btnUpN2.Enabled = enable;
             btnGoto.Enabled = enable;
+            btnHalt.Enabled = enable;
             txtStepsizeN1.Enabled = enable;
             txtStepsizeN2.Enabled = enable;
             txtGoto.Enabled = enable;
@@ -235,6 +236,14 @@ namespace FocusTest
         private void txtFocuser_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnHalt_Click(object sender, EventArgs e)
+        {
+            device.halt();
+            string newPos = device.getPosition();
+            txtPosition.Text = newPos;
+            rtbLog.AppendText(Utility.currentTime() + " - Halt. Stopped at " + newPos + "\n");
         }
 
 

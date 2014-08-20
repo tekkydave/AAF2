@@ -1,4 +1,4 @@
-AAF2 Release 2.1.2
+AAF2 Release 2.1.3
 ======================
 This requires the Ascom platform 6.1 to be installed first from the Ascom website (http://ascom-standards.org/)
 
@@ -15,6 +15,12 @@ It will install:
 - This needs to be uploaded to the Arduino in your focuser.
 
 See the Wiki section of this project for detailed build instructions.
+
+Changes in Version 2.1.3
+------------------------
+Implemented the Ascom Halt function.
+Added new Arduino sketch command Innnn#. This allows an initial position nnnn to be set. A textbox has been added to the
+chooser properties so initial position can be set by user. Position is remembered between disconnect/connect.
 
 Changes in Version 2.1.2
 ------------------------
