@@ -10,11 +10,13 @@
 //  0.0.2      26/05/2014  Initial - copied from Windows version
 //  2.0.0      22/06/2014  Renumbered to match Ascom Driver Numbering
 //  2.0.1      09/08/2014  Initial position set to 1000
+//  2.0.2      16/08/2014  Halt function implemented with H# command
+//                         New I# command to set an initial position
 //
 //------------------------------------------------------------------
   
 const String programName = "Arduino Focuser";
-const String programVersion = "2.0.0";
+const String programVersion = "2.0.2";
 
 const int    motorPins[4] = {7,8,9,10};       // Declare pins to drive motor control board
 const int    motorSpeedLo = 16000;            // Motor step delay for Lo speed (uS)
@@ -23,8 +25,9 @@ const int    motorSpeedDefault = 16000;       // Default motor step speed (uS)(f
 const int    speedThreshold = 25;             // motor speed Hi if steps to go is higher than this
 int          motorSpeed = motorSpeedDefault;  // current delay for motor step speed (uS)
 
-int          currentPosition = 0;             // current position
-int          targetPosition = 0;              // target position
+// Default initial positions if not set using the Innnn# command by Ascom Driver
+int          currentPosition = 1000;             // current position
+int          targetPosition = 1000;              // target position
 
 // lookup table to drive motor control board                                
 const int stepPattern[8] = {B01000, B01100, B00100, B00110, B00010, B00011, B00001, B01001};
@@ -104,10 +107,27 @@ void serialCommand(String command) {
       Serial.print("T" + targetPosS + ":OK#");
       break;
     }
+  case 'I': // Set Initial Position. Sets Position without any movement
+    {
+      int hashpos = command.indexOf('#');    // position of hash in string
+      String initPosS = command.substring(1,hashpos);
+      int initPosI = initPosS.toInt();
+      currentPosition = initPosI;
+      targetPosition = initPosI;
+      Serial.print("I" + initPosS + ":OK#");
+      break;
+    }
   case 'P': // Get Current Position
     {
       String currentPositionS = String(currentPosition);
       Serial.print("P" + currentPositionS + ":OK#");
+      break;
+    }
+  case 'H': // Halt
+    {
+      targetPosition = currentPosition;
+      String currentPositionS = String(currentPosition);
+      Serial.print("H" + currentPositionS + ":OK#");
       break;
     }
   case 'M': // Is motor moving
