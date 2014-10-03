@@ -24,7 +24,7 @@
 #define ONE_WIRE_BUS 6                        //DS18B20 DATA wire connected to Digital Pin 6
 
 const String programName = "Arduino Focuser";
-const String programVersion = "2.1.0";
+const String programVersion = "2.2.0";
 
 const int     motorPins[4] = {7,8,9,10};       // Declare pins to drive motor control board
 const int     motorSpeedLo = 16000;            // Motor step delay for Lo speed (uS)
