@@ -2,7 +2,8 @@
 // Ascom-Arduino Focusser
 // Dave Wells
 // Thanks for code snippets & inspiration:
-//  o  Gina (Stargazers Lounge)
+//  o  Gina (Stargazers Lounge) for the stepper control basics
+//  o  russellhq  (Stargazers Lounge) for the 1-wire code and info.
 //------------------------------------------------------------------
 
 //------ Change Log ------------------------------------------------
@@ -13,22 +14,36 @@
 //  2.0.2      16/08/2014  Halt function implemented with H# command
 //                         New I# command to set an initial position
 //
+//  version numbering brought into line with driver numbering
+//  2.2.0      03/10/2014  Implemented Temperature Sensing C# command
 //------------------------------------------------------------------
-  
-const String programName = "Arduino Focuser";
-const String programVersion = "2.0.2";
 
-const int    motorPins[4] = {7,8,9,10};       // Declare pins to drive motor control board
-const int    motorSpeedLo = 16000;            // Motor step delay for Lo speed (uS)
-const int    motorSpeedHi = 2000;             // Motor step delay for Hi speed (uS)
-const int    motorSpeedDefault = 16000;       // Default motor step speed (uS)(failsafe operation)
-const int    speedThreshold = 25;             // motor speed Hi if steps to go is higher than this
-int          motorSpeed = motorSpeedDefault;  // current delay for motor step speed (uS)
+// Include necessary libraries
+#include <OneWire.h>                          //DS18B20 temp sensor
+#include <DallasTemperature.h>                //DS18B20 temp sensor  
+#define ONE_WIRE_BUS 6                        //DS18B20 DATA wire connected to Digital Pin 6
+
+const String programName = "Arduino Focuser";
+const String programVersion = "2.1.0";
+
+const int     motorPins[4] = {7,8,9,10};       // Declare pins to drive motor control board
+const int     motorSpeedLo = 16000;            // Motor step delay for Lo speed (uS)
+const int     motorSpeedHi = 2000;             // Motor step delay for Hi speed (uS)
+const int     motorSpeedDefault = 16000;       // Default motor step speed (uS)(failsafe operation)
+const int     speedThreshold = 25;             // motor speed Hi if steps to go is higher than this
+int           motorSpeed = motorSpeedDefault;  // current delay for motor step speed (uS)
+DeviceAddress tempSensor;                      // Temperature sensor
+double        currentTemperature;              // current temperature
+boolean       tempSensorPresent = false;       // Is there a temperature sensor installed?
 
 // Default initial positions if not set using the Innnn# command by Ascom Driver
-int          currentPosition = 1000;             // current position
-int          targetPosition = 1000;              // target position
+int           currentPosition = 1000;             // current position
+int           targetPosition = 1000;              // target position
 
+// Initialise the temp sensor
+OneWire oneWire(ONE_WIRE_BUS);         // Setup a oneWire instance to communicate with any OneWire devices
+DallasTemperature sensors(&oneWire);   // Pass our oneWire reference to Dallas Temperature.
+  
 // lookup table to drive motor control board                                
 const int stepPattern[8] = {B01000, B01100, B00100, B00110, B00010, B00011, B00001, B01001};
 
@@ -90,6 +105,24 @@ void clearOutput()
 //------------------------------------------------------------------
 
 //------------------------------------------------------------------
+// Get Temperature 
+//------------------------------------------------------------------
+double GetTemperature()
+{
+  sensors.requestTemperatures();                    // Get temperatures
+  double tempC = sensors.getTempC(tempSensor);      // Get Temperature from our (single) Sensor
+  
+  if (tempC == -127.00) {
+    // error getting temperature, don't change current temperature
+  }
+  else {
+    currentTemperature = tempC;
+  }
+  return currentTemperature;
+}
+//------------------------------------------------------------------
+
+//------------------------------------------------------------------
 // ASCOM Serial Commands
 //------------------------------------------------------------------
 void serialCommand(String command) {
@@ -105,6 +138,13 @@ void serialCommand(String command) {
       int targetPosI = targetPosS.toInt();
       targetPosition = targetPosI;
       Serial.print("T" + targetPosS + ":OK#");
+      break;
+    }
+  case 'C': // Get Temperature
+    {
+      Serial.print("C");
+      Serial.print(GetTemperature(), 2);
+      Serial.print(":OK#");
       break;
     }
   case 'I': // Set Initial Position. Sets Position without any movement
@@ -139,9 +179,10 @@ void serialCommand(String command) {
       }
       break;
     }
-  case 'V': // Get Version
+  case 'V': // Get Version and abilities
     {
-      Serial.print( programName + " V" + programVersion + "#");
+      String tempInstalled = (tempSensorPresent == true ? " inc. Temp Sensor" : "");
+      Serial.print( programName + " V" + programVersion + tempInstalled + "#");
       break;
     }
   default:
@@ -151,7 +192,6 @@ void serialCommand(String command) {
       break;
     }
   }
-  //Serial.print("#");
 }
 //------------------------------------------------------------------
 
@@ -176,6 +216,27 @@ void setup()
   // Set initial position to 1000. Quick fix to avoid negative positions.
   currentPosition = 1000;
   targetPosition = 1000;
+  
+  // OneWire Libary setup
+  oneWire.reset_search();                    // Reset search
+  oneWire.search(tempSensor);                // Search for temp sensor and assign address to tempSensor
+
+  // DallasTemperature Library setup
+  sensors.begin();                           // Initialise 1-wire bus
+  
+  // Check if the temperature sensor is installed
+  if (sensors.getDeviceCount() == 0)
+  {
+    tempSensorPresent = false;
+  }
+  else
+  {
+    // temperature sensor installed - set it up and get initial value
+    tempSensorPresent = true;
+    sensors.setResolution(tempSensor, 10);     // Set the resolution to 12 bit (9bit=0.50C; 10bit=0.25C; 11bit=0.125C; 12bit=0.0625C)
+    sensors.requestTemperatures();             // Get the Temperatures
+    currentTemperature = GetTemperature();
+  }
 }
 //------------------------------------------------------------------
 
