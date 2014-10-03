@@ -1,4 +1,4 @@
-AAF2 Release 2.1.3
+AAF2 Release 2.2.0
 ======================
 This requires the Ascom platform 6.1 to be installed first from the Ascom website (http://ascom-standards.org/)
 
@@ -15,6 +15,12 @@ It will install:
 - This needs to be uploaded to the Arduino in your focuser.
 
 See the Wiki section of this project for detailed build instructions.
+
+Changes in Version 2.2.0
+------------------------
+Implemented Temperature Sensing.
+Arduino Sketch - Implemented C# command. Uses 1-wire DS18B20.
+  Ascom Driver - Implemented Ascom Temperature property.
 
 Changes in Version 2.1.3
 ------------------------
