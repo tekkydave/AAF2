@@ -87,6 +87,10 @@ namespace FocusTest
             return focuser.Position.ToString();
         }
 
+        public string getTemperature()
+        {
+            return focuser.Temperature.ToString();
+        }
 
         internal void commandSend(String s)
         {

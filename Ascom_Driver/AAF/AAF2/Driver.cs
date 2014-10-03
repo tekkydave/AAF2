@@ -437,8 +437,9 @@ namespace ASCOM.AAF2
         {
             get
             {
-                tl.LogMessage("Temperature Get", "Not implemented");
-                throw new ASCOM.PropertyNotImplementedException("Temperature", false);
+                //tl.LogMessage("Temperature Get", "Not implemented");                      // tekkydave - replaced with call to AAF2.getTemperature
+                //throw new ASCOM.PropertyNotImplementedException("Temperature", false);    // tekkydave - replaced with call to AAF2.getTemperature
+                return aaf2.getTemperature();
             }
         }
 

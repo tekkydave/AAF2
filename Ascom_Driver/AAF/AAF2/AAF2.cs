@@ -145,6 +145,18 @@ namespace ASCOM.AAF2
             return Int32.Parse(p);
         }
 
+        public double getTemperature()
+        {
+            string command = "C" + "#";
+            tl.LogMessage("AAF2.getTemperature", "Sending: " + command);
+            string r = CommandString(command, true);
+            tl.LogMessage("AAF2.getTemperature", "Received: " + r);
+            string[] w = r.Split(':');
+            string p = w[0].Substring(1);
+            tl.LogMessage("AAF2.getTemperature", "Temperature = " + p);
+            return Double.Parse(p);
+        }
+
         internal bool isMoving()
         {
             bool result;

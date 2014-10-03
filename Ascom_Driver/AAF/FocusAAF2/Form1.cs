@@ -246,6 +246,17 @@ namespace FocusTest
             rtbLog.AppendText(Utility.currentTime() + " - Halt. Stopped at " + newPos + "\n");
         }
 
+        private void lblTemp_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string temperature = device.getTemperature();
+            txtTemp.Text = temperature;
+        }
+
 
     }
 }
