@@ -11,6 +11,8 @@ namespace FocusTest
         private ASCOM.DriverAccess.Focuser focuser;
         private int stepsizeN1 = 0;
         private int stepsizeN2 = 0;
+        private int tempTimerInterval = 10000;
+
         RichTextBox rtbLog;
 
         public Device(RichTextBox rtb)
@@ -92,6 +94,11 @@ namespace FocusTest
             return focuser.Temperature.ToString();
         }
 
+        public int getTempTimerInterval()
+        {
+            return tempTimerInterval;
+        }
+
         internal void commandSend(String s)
         {
             rtbLog.AppendText("-- CommandSend START --\n");
@@ -136,5 +143,6 @@ namespace FocusTest
         {
             focuser.Halt();
         }
+
     }
 }

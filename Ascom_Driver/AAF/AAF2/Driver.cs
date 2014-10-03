@@ -25,6 +25,10 @@
 // Date			Who	        Vers	Description
 // -----------	----------  -----	-------------------------------------------------------
 // 01-06-2014	tekkydave	1.0.0	Initial edit, created from ASCOM driver template
+// 09/08/2014   tekkydave   2.0.1   Initial position set to 1000
+// 16/08/2014   tekkydave   2.0.2   Halt function implemented with H# command
+//                                  New I# command to set an initial position
+// 03/10/2014   tekkydave   2.2.0   Implemented Temperature Sensing C# command
 // ----------------------------------------------------------------------------------------
 //
 

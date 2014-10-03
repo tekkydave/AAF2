@@ -12,6 +12,7 @@ namespace FocusTest
     public partial class frmMain : Form
     {
         private Device device;
+        static System.Windows.Forms.Timer myTimer = new System.Windows.Forms.Timer();
 
         public frmMain()
         {
@@ -25,6 +26,14 @@ namespace FocusTest
             device = new Device(rtbLog);
             device.StepsizeN1 = FocusAAF2.Properties.Settings.Default.stepsizeN1Default;
             device.StepsizeN2 = FocusAAF2.Properties.Settings.Default.stepsizeN2Default;
+
+            
+        }
+
+        private void TimerEventProcessor(Object myObject, EventArgs myEventArgs)
+        {
+            string temperature = device.getTemperature();
+            txtTemp.Text = temperature;
         }
 
         private void btnChoose_Click(object sender, EventArgs e)
@@ -60,10 +69,17 @@ namespace FocusTest
                     rtbLog.AppendText(Utility.currentTime() + " - Connected to Device\n");
                     rtbLog.AppendText(Utility.currentTime() + " - Current Position = " + pos + "\n");
 
+                    // Initialise Timer for temperature updates
+                    myTimer.Tick += new EventHandler(TimerEventProcessor);
+                    myTimer.Interval = device.getTempTimerInterval();
+                    myTimer.Start();
+                    Application.DoEvents();
                 }
             }
             else
             {
+                myTimer.Stop();             // disable temperature interval timer
+
                 device.disconnect();
 
                 btnConnect.Text = "Connect";
@@ -231,6 +247,9 @@ namespace FocusTest
             txtStepsizeN2.Enabled = enable;
             txtGoto.Enabled = enable;
             txtPosition.Enabled = enable;
+            txtTemp.Enabled = enable;
+            lblTemp.Enabled = enable;
+            lbldegC.Enabled = enable;
         }
 
         private void txtFocuser_TextChanged(object sender, EventArgs e)

@@ -48,7 +48,6 @@
             this.btnHalt = new System.Windows.Forms.Button();
             this.txtTemp = new System.Windows.Forms.TextBox();
             this.lblTemp = new System.Windows.Forms.Label();
-            this.btnGetTemp = new System.Windows.Forms.Button();
             this.lbldegC = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -233,7 +232,7 @@
             // txtTemp
             // 
             this.txtTemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTemp.Location = new System.Drawing.Point(241, 202);
+            this.txtTemp.Location = new System.Drawing.Point(276, 202);
             this.txtTemp.Name = "txtTemp";
             this.txtTemp.Size = new System.Drawing.Size(49, 22);
             this.txtTemp.TabIndex = 16;
@@ -243,28 +242,18 @@
             // 
             this.lblTemp.AutoSize = true;
             this.lblTemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTemp.Location = new System.Drawing.Point(151, 204);
+            this.lblTemp.Location = new System.Drawing.Point(186, 204);
             this.lblTemp.Name = "lblTemp";
             this.lblTemp.Size = new System.Drawing.Size(86, 16);
             this.lblTemp.TabIndex = 17;
             this.lblTemp.Text = "Temperature";
             this.lblTemp.Click += new System.EventHandler(this.lblTemp_Click);
             // 
-            // btnGetTemp
-            // 
-            this.btnGetTemp.Location = new System.Drawing.Point(317, 201);
-            this.btnGetTemp.Name = "btnGetTemp";
-            this.btnGetTemp.Size = new System.Drawing.Size(32, 23);
-            this.btnGetTemp.TabIndex = 18;
-            this.btnGetTemp.Text = "Get";
-            this.btnGetTemp.UseVisualStyleBackColor = true;
-            this.btnGetTemp.Click += new System.EventHandler(this.button1_Click);
-            // 
             // lbldegC
             // 
             this.lbldegC.AutoSize = true;
             this.lbldegC.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbldegC.Location = new System.Drawing.Point(294, 205);
+            this.lbldegC.Location = new System.Drawing.Point(329, 205);
             this.lbldegC.Name = "lbldegC";
             this.lbldegC.Size = new System.Drawing.Size(17, 16);
             this.lbldegC.TabIndex = 19;
@@ -276,7 +265,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(510, 480);
             this.Controls.Add(this.lbldegC);
-            this.Controls.Add(this.btnGetTemp);
             this.Controls.Add(this.lblTemp);
             this.Controls.Add(this.txtTemp);
             this.Controls.Add(this.btnHalt);
@@ -327,7 +315,6 @@
         private System.Windows.Forms.Button btnHalt;
         private System.Windows.Forms.TextBox txtTemp;
         private System.Windows.Forms.Label lblTemp;
-        private System.Windows.Forms.Button btnGetTemp;
         private System.Windows.Forms.Label lbldegC;
 
     }
