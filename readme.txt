@@ -2,7 +2,7 @@ AAF2 Release 2.2.0
 ======================
 This requires the Ascom platform 6.1 to be installed first from the Ascom website (http://ascom-standards.org/)
 
-The two components are:
+The 3 project components are:
 
 1) A windows installer program (AAF2Setup.msi)
 
@@ -14,12 +14,24 @@ It will install:
 2) An Arduino sketch (AAF2.ino)
 - This needs to be uploaded to the Arduino in your focuser.
 
+3) Two Arduino Libraries that support the 1-wire and Temperature Sensor functions used by the sketch. 
+   You will need to install these in order to compile and upload the sketch even if you don't intend to connect a temperature sensor.
+   The libraries are in the Files section of this site along with the other files.
+   - OneWire.zip
+   - DallasTemperature.zip
+
+   Note that the focuser will still work without the temperature sensor attached but it will always give a temperature reading of 0C.
+
+   If you are unsure about how to install Libraries see the instructions here: http://arduino.cc/en/Guide/Libraries
+   Under the section 'Automatic installation' there are clear instructions on how to install the library zip files via the Arduino IDE.
+   Install the two libraries before trying to Compile & Upload the sketch to your Arduino device.
+
 See the Wiki section of this project for detailed build instructions.
 
 Changes in Version 2.2.0
 ------------------------
 Implemented Temperature Sensing.
-Arduino Sketch - Implemented C# command. Uses 1-wire DS18B20.
+Arduino Sketch - Implemented C# command. Uses 1-wire DS18B20. New functionality requires two Libraries.
   Ascom Driver - Implemented Ascom Temperature property.
 
 Changes in Version 2.1.3
