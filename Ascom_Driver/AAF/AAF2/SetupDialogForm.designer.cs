@@ -37,6 +37,7 @@ namespace ASCOM.AAF2
             this.comboBoxComPort = new System.Windows.Forms.ComboBox();
             this.txtInitialPosition = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.lblInitPosInst = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.picASCOM)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,7 +45,7 @@ namespace ASCOM.AAF2
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.cmdOK.Location = new System.Drawing.Point(281, 112);
+            this.cmdOK.Location = new System.Drawing.Point(295, 120);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(59, 24);
             this.cmdOK.TabIndex = 0;
@@ -56,7 +57,7 @@ namespace ASCOM.AAF2
             // 
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdCancel.Location = new System.Drawing.Point(281, 142);
+            this.cmdCancel.Location = new System.Drawing.Point(295, 150);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(59, 25);
             this.cmdCancel.TabIndex = 1;
@@ -77,7 +78,7 @@ namespace ASCOM.AAF2
             this.picASCOM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.picASCOM.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picASCOM.Image = global::ASCOM.AAF2.Properties.Resources.ASCOM;
-            this.picASCOM.Location = new System.Drawing.Point(292, 9);
+            this.picASCOM.Location = new System.Drawing.Point(306, 9);
             this.picASCOM.Name = "picASCOM";
             this.picASCOM.Size = new System.Drawing.Size(48, 56);
             this.picASCOM.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -89,7 +90,7 @@ namespace ASCOM.AAF2
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 59);
+            this.label2.Location = new System.Drawing.Point(16, 59);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 13);
             this.label2.TabIndex = 5;
@@ -98,7 +99,7 @@ namespace ASCOM.AAF2
             // chkTrace
             // 
             this.chkTrace.AutoSize = true;
-            this.chkTrace.Location = new System.Drawing.Point(16, 129);
+            this.chkTrace.Location = new System.Drawing.Point(16, 155);
             this.chkTrace.Name = "chkTrace";
             this.chkTrace.Size = new System.Drawing.Size(69, 17);
             this.chkTrace.TabIndex = 6;
@@ -116,27 +117,36 @@ namespace ASCOM.AAF2
             // 
             // txtInitialPosition
             // 
-            this.txtInitialPosition.Location = new System.Drawing.Point(90, 92);
+            this.txtInitialPosition.Location = new System.Drawing.Point(77, 88);
             this.txtInitialPosition.Name = "txtInitialPosition";
-            this.txtInitialPosition.Size = new System.Drawing.Size(100, 20);
+            this.txtInitialPosition.Size = new System.Drawing.Size(85, 20);
             this.txtInitialPosition.TabIndex = 8;
-            this.txtInitialPosition.Text = "1000";
             this.txtInitialPosition.TextChanged += new System.EventHandler(this.txtInitialPosition_TextChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 95);
+            this.label3.Location = new System.Drawing.Point(3, 91);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(71, 13);
             this.label3.TabIndex = 9;
             this.label3.Text = "Initial Position";
             // 
+            // lblInitPosInst
+            // 
+            this.lblInitPosInst.AutoSize = true;
+            this.lblInitPosInst.Location = new System.Drawing.Point(166, 91);
+            this.lblInitPosInst.Name = "lblInitPosInst";
+            this.lblInitPosInst.Size = new System.Drawing.Size(182, 13);
+            this.lblInitPosInst.TabIndex = 10;
+            this.lblInitPosInst.Text = "(Leave blank to keep stored position)";
+            // 
             // SetupDialogForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(350, 175);
+            this.ClientSize = new System.Drawing.Size(364, 183);
+            this.Controls.Add(this.lblInitPosInst);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtInitialPosition);
             this.Controls.Add(this.comboBoxComPort);
@@ -170,5 +180,6 @@ namespace ASCOM.AAF2
         private System.Windows.Forms.ComboBox comboBoxComPort;
         private System.Windows.Forms.TextBox txtInitialPosition;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblInitPosInst;
     }
 }

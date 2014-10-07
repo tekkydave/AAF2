@@ -41,7 +41,16 @@ namespace ASCOM.AAF2
 
             Focuser.comPort = comboBoxComPort.Text; // Update the state variables with results from the dialogue
             Focuser.traceState = chkTrace.Checked;
-            Focuser.savedPosition = Int32.Parse(txtInitialPosition.Text);
+
+            // If a new initial position entered pass it to focuser
+            if (!String.IsNullOrEmpty(txtInitialPosition.Text))
+            {
+                Focuser.newInitialPosition = Int32.Parse(txtInitialPosition.Text);
+            }
+            else
+            {
+                Focuser.newInitialPosition = 0;
+            }
 
             using (ASCOM.Utilities.Profile p = new Utilities.Profile())
             {

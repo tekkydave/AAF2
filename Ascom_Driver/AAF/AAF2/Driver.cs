@@ -29,6 +29,9 @@
 // 16/08/2014   tekkydave   2.0.2   Halt function implemented with H# command
 //                                  New I# command to set an initial position
 // 03/10/2014   tekkydave   2.2.0   Implemented Temperature Sensing C# command
+// 07/10/2014   tekkydave   2.2.1   Amended to use stored position from focuser
+//                                  Changed Initial Position field behaviour. Now only sets
+//                                  focuser initial position if not blank.
 // ----------------------------------------------------------------------------------------
 //
 
@@ -86,7 +89,7 @@ namespace ASCOM.AAF2
 
         internal static string comPort; // Variables to hold the currrent device configuration
         internal static bool traceState;
-        internal static int savedPosition; // tekkydave - to hold position passed from setup dialog or between disconnect / reconnects
+        internal static int newInitialPosition = 0; // tekkydave - to hold new initial position passed from setup dialog
 
         #endregion
 
@@ -248,8 +251,9 @@ namespace ASCOM.AAF2
                     // TODO connect to the device
                     aaf2.connect(driverID);         // tekkydave - Connect to device
 
-                    // set initial position to saved position (from setup dialog or previous disconnect)
-                    aaf2.setInitialPosition(savedPosition);
+                    // set new initial position to initial position from setup dialog
+                    if (newInitialPosition != 0)
+                        aaf2.setInitialPosition(newInitialPosition);
 
                     focuserPosition = aaf2.getPosition();   // get current position
                 }
@@ -258,7 +262,6 @@ namespace ASCOM.AAF2
                     connectedState = false;
                     tl.LogMessage("Connected Set", "Disconnecting from port " + comPort);
                     // TODO disconnect from the device
-                    savedPosition = aaf2.getPosition();     // tekkydave - save position for reconnections
                     aaf2.disconnect();      // tekkydave - Disconnect from device
                 }
             }
