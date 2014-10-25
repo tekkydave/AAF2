@@ -16,7 +16,7 @@
 //
 //  version numbering brought into line with driver numbering
 //  2.2.0      03/10/2014  Implemented Temperature Sensing C# command
-//  2.2.1      07/10/2014  Now stores position in EEPROM
+//  2.3.0      07/10/2014  Now stores position in EEPROM
 //                         Changed some int variables to unsigned int
 //                         Fixed minor bug in motor hi/lo speed detection
 //                         Temperature now in 100ths of degree for internationlisation
@@ -37,7 +37,7 @@
 #define POS_VALID 55                          // Stored position valid if this value otherwise assume invalid
 
 const String programName = "Arduino Focuser";
-const String programVersion = "2.2.1";
+const String programVersion = "2.3.0";
 
 const int     motorPins[4] = {7,8,9,10};       // Declare pins to drive motor control board
 const int     motorSpeedLo = 16000;            // Motor step delay for Lo speed (uS)
