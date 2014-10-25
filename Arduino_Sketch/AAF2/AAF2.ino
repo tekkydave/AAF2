@@ -16,15 +16,28 @@
 //
 //  version numbering brought into line with driver numbering
 //  2.2.0      03/10/2014  Implemented Temperature Sensing C# command
+//  2.2.1      07/10/2014  Now stores position in EEPROM
+//                         Changed some int variables to unsigned int
+//                         Fixed minor bug in motor hi/lo speed detection
+//                         Temperature now in 100ths of degree for internationlisation
+//                         Block temperature requests during focuser movement
 //------------------------------------------------------------------
 
 // Include necessary libraries
-#include <OneWire.h>                          //DS18B20 temp sensor
-#include <DallasTemperature.h>                //DS18B20 temp sensor  
-#define ONE_WIRE_BUS 6                        //DS18B20 DATA wire connected to Digital Pin 6
+#include <OneWire.h>                          // DS18B20 temp sensor
+#include <DallasTemperature.h>                // DS18B20 temp sensor  
+#include <EEPROM.h>                           // EEPROM Library
+#define ONE_WIRE_BUS 6                        // DS18B20 DATA wire connected to Digital Pin 6
+
+// EEPROM storage locations
+#define EE_LOC_POS 0                          // Location of position (2 bytes)
+#define EE_LOC_PSTAT 2                        // Location of Position Status (1 Byte)
+
+// Position Statuses
+#define POS_VALID 55                          // Stored position valid if this value otherwise assume invalid
 
 const String programName = "Arduino Focuser";
-const String programVersion = "2.2.0";
+const String programVersion = "2.2.1";
 
 const int     motorPins[4] = {7,8,9,10};       // Declare pins to drive motor control board
 const int     motorSpeedLo = 16000;            // Motor step delay for Lo speed (uS)
@@ -37,8 +50,8 @@ double        currentTemperature;              // current temperature
 boolean       tempSensorPresent = false;       // Is there a temperature sensor installed?
 
 // Default initial positions if not set using the Innnn# command by Ascom Driver
-int           currentPosition = 1000;             // current position
-int           targetPosition = 1000;              // target position
+unsigned int           currentPosition = 1000;             // current position
+unsigned int           targetPosition = 1000;              // target position
 
 // Initialise the temp sensor
 OneWire oneWire(ONE_WIRE_BUS);         // Setup a oneWire instance to communicate with any OneWire devices
@@ -107,7 +120,7 @@ void clearOutput()
 //------------------------------------------------------------------
 // Get Temperature 
 //------------------------------------------------------------------
-double GetTemperature()
+double getTemperature()
 {
   sensors.requestTemperatures();                    // Get temperatures
   double tempC = sensors.getTempC(tempSensor);      // Get Temperature from our (single) Sensor
@@ -119,6 +132,46 @@ double GetTemperature()
     currentTemperature = tempC;
   }
   return currentTemperature;
+}
+//------------------------------------------------------------------
+
+//------------------------------------------------------------------
+// Save position in EEPROM - split into 2 byte values. Also sets position valid
+//------------------------------------------------------------------
+void savePosition(unsigned int p)
+{
+  byte lowByte = ((p >> 0) & 0xFF);
+  byte highByte = ((p >> 8) & 0xFF);
+  
+  EEPROM.write(EE_LOC_POS, lowByte);
+  EEPROM.write(EE_LOC_POS + 1, highByte);
+  
+  EEPROM.write(EE_LOC_PSTAT, POS_VALID);   // stored position is valid
+}
+//------------------------------------------------------------------
+
+//------------------------------------------------------------------
+// Restore position from EEPROM
+//------------------------------------------------------------------
+unsigned int restorePosition(void)
+{
+  byte lowByte = EEPROM.read(EE_LOC_POS);
+  byte highByte = EEPROM.read(EE_LOC_POS + 1);
+  
+  return ((lowByte << 0) & 0xFF) + ((highByte << 8) & 0xFF00);
+}
+//------------------------------------------------------------------
+
+//------------------------------------------------------------------
+// Check if stored position in EEPROM is valid
+//------------------------------------------------------------------
+boolean storedPositionValid(void)
+{
+  byte status = EEPROM.read(EE_LOC_PSTAT);
+  if (status == POS_VALID)
+    return true;
+  else
+    return false;
 }
 //------------------------------------------------------------------
 
@@ -135,15 +188,27 @@ void serialCommand(String command) {
     {
       int hashpos = command.indexOf('#');    // position of hash in string
       String targetPosS = command.substring(1,hashpos);
-      int targetPosI = targetPosS.toInt();
+      unsigned int targetPosI = targetPosS.toInt();
       targetPosition = targetPosI;
       Serial.print("T" + targetPosS + ":OK#");
       break;
     }
   case 'C': // Get Temperature
     {
+      double t;
+      
+      // if moving block temperature requests as they interfere with movement. Just return last reading.
+      if (isMoving)
+      {
+        t = currentTemperature;
+      }
+      else
+      {
+        t = getTemperature();     
+      }
+      
       Serial.print("C");
-      Serial.print(GetTemperature(), 2);
+      Serial.print(t * 100, 0);
       Serial.print(":OK#");
       break;
     }
@@ -151,7 +216,7 @@ void serialCommand(String command) {
     {
       int hashpos = command.indexOf('#');    // position of hash in string
       String initPosS = command.substring(1,hashpos);
-      int initPosI = initPosS.toInt();
+      unsigned int initPosI = initPosS.toInt();
       currentPosition = initPosI;
       targetPosition = initPosI;
       Serial.print("I" + initPosS + ":OK#");
@@ -181,8 +246,10 @@ void serialCommand(String command) {
     }
   case 'V': // Get Version and abilities
     {
-      String tempInstalled = (tempSensorPresent == true ? " inc. Temp Sensor" : "");
-      Serial.print( programName + " V" + programVersion + tempInstalled + "#");
+      String tempInstalled = (tempSensorPresent ? " | Temp. Sensor |" : "");
+      String posValid = (storedPositionValid() ? " | Stored Position |" : "");
+      
+      Serial.print( programName + " V" + programVersion + tempInstalled + posValid + "#");
       break;
     }
   default:
@@ -213,9 +280,19 @@ void setup()
   // reserve 200 bytes for the ASCOM driver inputString:
   inputString.reserve(200);
 
-  // Set initial position to 1000. Quick fix to avoid negative positions.
-  currentPosition = 1000;
-  targetPosition = 1000;
+  //EEPROM.write(EE_LOC_PSTAT, 0); // FOR TESTING - invalidate stored position
+  
+  // Use position from EEPROM if it is valid, otherwise use default
+  if (storedPositionValid())
+  {
+    currentPosition = restorePosition();
+    targetPosition = currentPosition;
+  }
+  else
+  {
+    currentPosition = 1000;
+    targetPosition = currentPosition;
+  }
   
   // OneWire Libary setup
   oneWire.reset_search();                    // Reset search
@@ -235,7 +312,7 @@ void setup()
     tempSensorPresent = true;
     sensors.setResolution(tempSensor, 10);     // Set the resolution to 12 bit (9bit=0.50C; 10bit=0.25C; 11bit=0.125C; 12bit=0.0625C)
     sensors.requestTemperatures();             // Get the Temperatures
-    currentTemperature = GetTemperature();
+    currentTemperature = getTemperature();
   }
 }
 //------------------------------------------------------------------
@@ -259,7 +336,8 @@ void loop()
     isMoving = true;
     
     // Adjust speed according to distance yet to travel
-    if (abs(currentPosition - targetPosition) > speedThreshold) {
+    int distance = currentPosition - targetPosition;
+    if (abs(distance) > speedThreshold) {
       motorSpeed = motorSpeedHi;
     } else {
       motorSpeed = motorSpeedLo;
@@ -276,6 +354,10 @@ void loop()
       clockwise();
       currentPosition++;
     }
+       
+    // save new position in EEPROM
+    savePosition(currentPosition);
+
   } else {
     isMoving = false;
   }
