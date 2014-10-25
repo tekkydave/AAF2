@@ -154,7 +154,7 @@ namespace ASCOM.AAF2
             string[] w = r.Split(':');
             string p = w[0].Substring(1);
             tl.LogMessage("AAF2.getTemperature", "Temperature = " + p);
-            return Double.Parse(p);
+            return Double.Parse(p)/100D;
         }
 
         internal bool isMoving()

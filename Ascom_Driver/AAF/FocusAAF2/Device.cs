@@ -11,7 +11,7 @@ namespace FocusTest
         private ASCOM.DriverAccess.Focuser focuser;
         private int stepsizeN1 = 0;
         private int stepsizeN2 = 0;
-        private int tempTimerInterval = 10000;
+        private int tempTimerInterval = 1000;
 
         RichTextBox rtbLog;
 

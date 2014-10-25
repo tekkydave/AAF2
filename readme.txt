@@ -1,4 +1,4 @@
-AAF2 Release 2.2.0
+AAF2 Release 2.3.0
 ======================
 This requires the Ascom platform 6.1 to be installed first from the Ascom website (http://ascom-standards.org/)
 
@@ -27,6 +27,24 @@ It will install:
    Install the two libraries before trying to Compile & Upload the sketch to your Arduino device.
 
 See the Wiki section of this project for detailed build instructions.
+
+Changes in Version 2.3.0
+------------------------
+Enhancements:
+* The Arduino now saves it's current position in EEPROM (non-volatile memory). It will remember the position it was at between
+  focuser and client application restarts / disconnects. The chooser dialog has been modified to enable you to override the initial
+  starting position if required.
+* Some users in countries other than the UK reported issues with the temperature not being interpreted correctly due to the use
+  of a dot as the decimal separator. This has been removed and the Arduino now returns the temperature in 100ths of a degree (no decimal).
+  The driver has been updated to divide by 100 prior to returning the value to the calling client program. Windows should put
+  the correct decimal separator in the value according to the PC's international settings.
+  I have also blocked the reading of the 1-wire temperature sensor whilst the motor is moving as it interferes with smooth movement.
+  During movement it will return the last read value. When the motor is not moving it will re-read the sensor. This is because many
+  client applications seem to read it every second which seems excessive. The FocusAAF2 test program now also reads every second for testing.
+
+Bug fixes:
+* Changed some int variables to unsigned int
+* Fixed a minor bug in the motor hi/lo speed detection - it was only working in one direction.
 
 Changes in Version 2.2.0
 ------------------------
