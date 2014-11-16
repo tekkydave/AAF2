@@ -255,6 +255,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_6FF344DE1200F473373D03AD0BB09EDD"
+        "OwnerKey" = "8:_5C0405D897084936B71D0B47752E6919"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_7441F5BA817DD3B11F1FEEC3B062693A"
         "OwnerKey" = "8:_1DC8B3735DED42DDAEB2E8783E6BA915"
         "MsmSig" = "8:_UNDEFINED"
@@ -371,12 +377,6 @@
         {
         "MsmKey" = "8:_D22E62A09BD24D019D89399FEFB41D4B"
         "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E3A6412660AB969616E9CEABA0AEEF37"
-        "OwnerKey" = "8:_5C0405D897084936B71D0B47752E6919"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -554,6 +554,19 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
             }
         }
         "Release"
@@ -578,6 +591,19 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
             }
         }
     }
@@ -794,6 +820,26 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6FF344DE1200F473373D03AD0BB09EDD"
+            {
+            "SourcePath" = "8:ASCOM.AAF2.Focuser.tlb"
+            "TargetName" = "8:ASCOM.AAF2.Focuser.tlb"
+            "Tag" = "8:"
+            "Folder" = "8:_9418AFF8138248F0B5DBA436C9E7403C"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:2"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7441F5BA817DD3B11F1FEEC3B062693A"
             {
             "AssemblyRegister" = "3:1"
@@ -938,26 +984,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E3A6412660AB969616E9CEABA0AEEF37"
-            {
-            "SourcePath" = "8:ASCOM.AAF2.Focuser.tlb"
-            "TargetName" = "8:ASCOM.AAF2.Focuser.tlb"
-            "Tag" = "8:"
-            "Folder" = "8:_9418AFF8138248F0B5DBA436C9E7403C"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:2"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F4225885ACEF262D4972CA393BDEC0C2"
             {
             "AssemblyRegister" = "3:1"
@@ -1002,6 +1028,18 @@
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Property" = "8:DesktopFolder"
+                "Folders"
+                {
+                }
+            }
+            "{994432C3-9487-495D-8656-3E829A8DBDDE}:_3159940B70A94D5496C3F234017D6DBE"
+            {
+            "DefaultLocation" = "8:C:\\trace\\AAF2"
+            "Name" = "8:Trace Files"
+            "AlwaysCreate" = "11:TRUE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Property" = "8:NEWPROPERTY1"
                 "Folders"
                 {
                 }
@@ -1057,7 +1095,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:AAF2"
         "ProductCode" = "8:{C326670A-A717-4467-9159-C2A4C1553982}"
-        "PackageCode" = "8:{6443691D-1612-43CC-942F-174ACD305722}"
+        "PackageCode" = "8:{E23E2B63-3BD9-42C4-B970-93EE9347D209}"
         "UpgradeCode" = "8:{6BA40FD1-50EB-444C-9017-A8D8A9C527E2}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
