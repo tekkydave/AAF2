@@ -1039,7 +1039,7 @@
             "AlwaysCreate" = "11:TRUE"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
-            "Property" = "8:NEWPROPERTY1"
+            "Property" = "8:TRACEDIR"
                 "Folders"
                 {
                 }
@@ -1093,17 +1093,17 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:AAF2"
+        "ProductName" = "8:AAF2.Focuser"
         "ProductCode" = "8:{C326670A-A717-4467-9159-C2A4C1553982}"
-        "PackageCode" = "8:{E23E2B63-3BD9-42C4-B970-93EE9347D209}"
+        "PackageCode" = "8:{AE782CCF-C7DF-4B68-8653-06A991071902}"
         "UpgradeCode" = "8:{6BA40FD1-50EB-444C-9017-A8D8A9C527E2}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
-        "InstallAllUsers" = "11:FALSE"
+        "InstallAllUsers" = "11:TRUE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:AAF2"
+        "Manufacturer" = "8:ASCOM"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:AAF2Installer"
@@ -1145,6 +1145,42 @@
                             "Transitive" = "11:FALSE"
                                 "Keys"
                                 {
+                                    "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_3E32B2BC7D7A414DA569B2D3E410BD50"
+                                    {
+                                    "Name" = "8:Focuser Drivers"
+                                    "Condition" = "8:"
+                                    "AlwaysCreate" = "11:FALSE"
+                                    "DeleteAtUninstall" = "11:FALSE"
+                                    "Transitive" = "11:FALSE"
+                                        "Keys"
+                                        {
+                                            "{60EA8692-D2D5-43EB-80DC-7906BF13D6EF}:_5C9EDB9294314049B7B76863DBDF1275"
+                                            {
+                                            "Name" = "8:[Manufacturer].[ProductName]"
+                                            "Condition" = "8:"
+                                            "AlwaysCreate" = "11:TRUE"
+                                            "DeleteAtUninstall" = "11:TRUE"
+                                            "Transitive" = "11:FALSE"
+                                                "Keys"
+                                                {
+                                                }
+                                                "Values"
+                                                {
+                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_93F4D05BADE542F4A179BCFD0FD7DC3A"
+                                                    {
+                                                    "Name" = "8:"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:ASCOM Focuser Driver for AAF2"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        "Values"
+                                        {
+                                        }
+                                    }
                                 }
                                 "Values"
                                 {
