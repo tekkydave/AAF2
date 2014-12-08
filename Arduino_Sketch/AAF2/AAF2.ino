@@ -6,7 +6,7 @@
 //  o  russellhq  (Stargazers Lounge) for the 1-wire code and info.
 //------------------------------------------------------------------
 
-//------ Change Log ------------------------------------------------
+//------ Change Log ----------------------------------------------------------------------
 //  Version    Date        Change
 //  0.0.2      26/05/2014  Initial - copied from Windows version
 //  2.0.0      22/06/2014  Renumbered to match Ascom Driver Numbering
@@ -21,61 +21,81 @@
 //                         Fixed minor bug in motor hi/lo speed detection
 //                         Temperature now in 100ths of degree for internationlisation
 //                         Block temperature requests during focuser movement
-//------------------------------------------------------------------
+// 2.4.0       08/12/2014  Amended to step in single half-steps not 8 per unit
+//                         Moved user-configurable parameters to a dingle block at top of code
+//                         Reduced number of read/write operations to/from EEPROM
+//                         Reduced no of calls to clear the output pins in loop()
+//                         Some general code and structure tidying
+//----------------------------------------------------------------------------------------
 
+//----------------------------------------------------------------------------------------------------------------------
 // Include necessary libraries
-#include <OneWire.h>                          // DS18B20 temp sensor
-#include <DallasTemperature.h>                // DS18B20 temp sensor  
-#include <EEPROM.h>                           // EEPROM Library
-#define ONE_WIRE_BUS 6                        // DS18B20 DATA wire connected to Digital Pin 6
+//----------------------------------------------------------------------------------------------------------------------
+#include <OneWire.h>                                     // DS18B20 temp sensor
+#include <DallasTemperature.h>                           // DS18B20 temp sensor  
+#include <EEPROM.h>                                      // EEPROM Library
+//----------------------------------------------------------------------------------------------------------------------
 
-// EEPROM storage locations
-#define EE_LOC_POS 0                          // Location of position (2 bytes)
-#define EE_LOC_PSTAT 2                        // Location of Position Status (1 Byte)
+//----------------------------------------------------------------------------------------------------------------------
+// User-configurable values
+//----------------------------------------------------------------------------------------------------------------------
+const int motorPins[4] = {7,8,9,10};                      // Declare pins to drive motor control board
+#define ONE_WIRE_BUS                    6                 // DS18B20 DATA wire connected to Digital Pin 6
+#define MOTOR_STEPS_PER_DRIVER_STEP     1                 // Motor steps per Ascom movement Unit (old method = 8)
+#define MOTOR_SPEED_DEFAULT             16000             // Default motor step speed (uS)(failsafe operation)
+#define MOTOR_SPEED_LO                  16000             // Motor step delay for Lo speed (uS)
+#define MOTOR_SPEED_HI                  2000              // Motor step delay for Hi speed (uS)
+#define MOTOR_SPEED_THRESHOLD           100               // motor speed Hi if steps to go is higher than this
+#define DEFAULT_START_POSITION          5000              // Default Start Position if not set by Innnn# command
+#define TEMP_RESOLUTION                 10                // 1-wire temperature sensor resolution 9=9bit(0.50C), 10=10bit(0.25C), 11=11bit(0.125C), 12=12bit(0.0625C)
+//----------------------------------------------------------------------------------------------------------------------
 
-// Position Statuses
-#define POS_VALID 55                          // Stored position valid if this value otherwise assume invalid
+//----------------------------------------------------------------------------------------------------------------------
+// EEPROM storage parameters
+//----------------------------------------------------------------------------------------------------------------------
+#define EE_LOC_POS 0                                       // Location of position (2 bytes)
+#define EE_LOC_PSTAT 2                                     // Location of Position Status (1 Byte)
+#define POS_VALID 55                                       // Stored position valid if this value otherwise invalid
+//----------------------------------------------------------------------------------------------------------------------
 
 const String programName = "Arduino Focuser";
-const String programVersion = "2.3.0";
+const String programVersion = "2.4.0";
 
-const int     motorPins[4] = {7,8,9,10};       // Declare pins to drive motor control board
-const int     motorSpeedLo = 16000;            // Motor step delay for Lo speed (uS)
-const int     motorSpeedHi = 2000;             // Motor step delay for Hi speed (uS)
-const int     motorSpeedDefault = 16000;       // Default motor step speed (uS)(failsafe operation)
-const int     speedThreshold = 25;             // motor speed Hi if steps to go is higher than this
-int           motorSpeed = motorSpeedDefault;  // current delay for motor step speed (uS)
-DeviceAddress tempSensor;                      // Temperature sensor
-double        currentTemperature;              // current temperature
-boolean       tempSensorPresent = false;       // Is there a temperature sensor installed?
+int           motorSpeed = MOTOR_SPEED_DEFAULT;            // current delay for motor step speed (uS)
+DeviceAddress tempSensor;                                  // Temperature sensor
+double        currentTemperature;                          // current temperature
+boolean       tempSensorPresent = false;                   // Is there a temperature sensor installed?
+int           step = 0;                                    // current motor step position
+boolean       outputActive = true;                         // Is motor energised? Initialised to true so it gets cleared on startup
 
 // Default initial positions if not set using the Innnn# command by Ascom Driver
-unsigned int           currentPosition = 1000;             // current position
-unsigned int           targetPosition = 1000;              // target position
+unsigned int           currentPosition = DEFAULT_START_POSITION;     // current position
+unsigned int           targetPosition = DEFAULT_START_POSITION;      // target position
+unsigned int           lastSavedPosition;                            // last position saved to EEPROM
 
 // Initialise the temp sensor
-OneWire oneWire(ONE_WIRE_BUS);         // Setup a oneWire instance to communicate with any OneWire devices
-DallasTemperature sensors(&oneWire);   // Pass our oneWire reference to Dallas Temperature.
+OneWire oneWire(ONE_WIRE_BUS);                             // Setup a oneWire instance to communicate with any OneWire devices
+DallasTemperature sensors(&oneWire);                       // Pass our oneWire reference to Dallas Temperature.
   
 // lookup table to drive motor control board                                
 const int stepPattern[8] = {B01000, B01100, B00100, B00110, B00010, B00011, B00001, B01001};
 
 // For ASCOM connection
-String inputString = "";         // string to hold incoming data
-boolean stringComplete = false;  // whether the string is complete
-boolean isMoving = false;        // is the motor currently moving
+String inputString = "";                                   // string to hold incoming data
+boolean stringComplete = false;                            // whether the string is complete
+boolean isMoving = false;                                  // is the motor currently moving
 
 //------------------------------------------------------------------
 // Move stepper anticlockwise 
 //------------------------------------------------------------------
 void anticlockwise()
 {
-  for(int i = 0; i < 8; i++)
-  {
-        setOutput(i);
-        delayMicroseconds(motorSpeed);
-  }
-  clearOutput();
+  step++;
+  if (step > 7)
+    step = 0;
+
+  setOutput(step);
+  delayMicroseconds(motorSpeed);
 }
 //------------------------------------------------------------------
 
@@ -85,12 +105,12 @@ void anticlockwise()
 
 void clockwise()
 {
-  for(int i = 7; i >= 0; i--)
-  {
-        setOutput(i);
-        delayMicroseconds(motorSpeed);
-  }
-  clearOutput();
+  step--;
+  if (step < 0)
+    step = 7;
+    
+  setOutput(step);
+  delayMicroseconds(motorSpeed);
 }
 //------------------------------------------------------------------
 
@@ -102,6 +122,7 @@ void setOutput(int out)
   for (int i=0; i<4; i++) {
     digitalWrite(motorPins[i], bitRead(stepPattern[out], i));
   }
+  outputActive = true;
 }
 //------------------------------------------------------------------
 
@@ -111,8 +132,12 @@ void setOutput(int out)
 //------------------------------------------------------------------
 void clearOutput()
 {
-  for (int i=0; i<4; i++) {
-    digitalWrite(motorPins[i], 0);
+  if (outputActive)                 // only clear if already active
+  {
+    for (int i=0; i<4; i++) {
+      digitalWrite(motorPins[i], 0);
+    }
+    outputActive = false;
   }
 }
 //------------------------------------------------------------------
@@ -122,8 +147,8 @@ void clearOutput()
 //------------------------------------------------------------------
 double getTemperature()
 {
-  sensors.requestTemperatures();                    // Get temperatures
-  double tempC = sensors.getTempC(tempSensor);      // Get Temperature from our (single) Sensor
+  sensors.requestTemperatures();                           // Get temperatures
+  double tempC = sensors.getTempC(tempSensor);             // Get Temperature from our (single) Sensor
   
   if (tempC == -127.00) {
     // error getting temperature, don't change current temperature
@@ -254,7 +279,7 @@ void serialCommand(String command) {
     }
   default:
     {
-      motorSpeed = motorSpeedDefault;
+      motorSpeed = MOTOR_SPEED_DEFAULT;
       Serial.print("ERR#");
       break;
     }
@@ -263,63 +288,79 @@ void serialCommand(String command) {
 //------------------------------------------------------------------
 
 
-//------------------------------------------------------------------
+//=============================================================================================================
 // Setup
-//------------------------------------------------------------------
+//=============================================================================================================
+
 void setup() 
 {
-  // Declare the stepper motor pins as outputs
+  //-----------------------------------------------------------------------------------------------------------
+  // Stepper motor initialisation
+  //-----------------------------------------------------------------------------------------------------------
   for (int i=0; i<4; i++) {
     pinMode(motorPins[i], OUTPUT);
   }
+  //-----------------------------------------------------------------------------------------------------------
   
-  clearOutput();
-      
-  // initialize serial for ASCOM
-  Serial.begin(9600);
-  // reserve 200 bytes for the ASCOM driver inputString:
-  inputString.reserve(200);
-
-  //EEPROM.write(EE_LOC_PSTAT, 0); // FOR TESTING - invalidate stored position
+  //-----------------------------------------------------------------------------------------------------------
+  // Comms initialisation
+  //-----------------------------------------------------------------------------------------------------------
+  clearOutput();                                     // Ensure all motor coils de-energised
+  Serial.begin(9600);                                // Initialize serial for ASCOM
+  inputString.reserve(200);                          // reserve 200 bytes for the ASCOM driver inputString
+  //-----------------------------------------------------------------------------------------------------------
   
-  // Use position from EEPROM if it is valid, otherwise use default
-  if (storedPositionValid())
+  //-----------------------------------------------------------------------------------------------------------
+  // Position initialisation
+  //-----------------------------------------------------------------------------------------------------------
+  if (storedPositionValid())                         // Check if EEPROM position is valid
   {
-    currentPosition = restorePosition();
-    targetPosition = currentPosition;
+    currentPosition = restorePosition();             // Use position from EEPROM if it is valid
   }
   else
   {
-    currentPosition = 1000;
-    targetPosition = currentPosition;
+    currentPosition = DEFAULT_START_POSITION;        // If invalid use the default position
   }
+  lastSavedPosition = currentPosition;
+  targetPosition = currentPosition;
+  //-----------------------------------------------------------------------------------------------------------
   
-  // OneWire Libary setup
-  oneWire.reset_search();                    // Reset search
-  oneWire.search(tempSensor);                // Search for temp sensor and assign address to tempSensor
-
-  // DallasTemperature Library setup
-  sensors.begin();                           // Initialise 1-wire bus
+  //-----------------------------------------------------------------------------------------------------------
+  // OneWire Libary initialisation
+  //-----------------------------------------------------------------------------------------------------------
+  oneWire.reset_search();                            // Reset search
+  oneWire.search(tempSensor);                        // Search for temp sensor and assign address to tempSensor
+  //-----------------------------------------------------------------------------------------------------------
   
-  // Check if the temperature sensor is installed
+  //-----------------------------------------------------------------------------------------------------------
+  // DallasTemperature Library initialisation
+  //-----------------------------------------------------------------------------------------------------------  
+  sensors.begin();                                   // Initialise 1-wire bus
+  //-----------------------------------------------------------------------------------------------------------
+  
+  //-----------------------------------------------------------------------------------------------------------
+  // Temperature sensor initialisation
+  //-----------------------------------------------------------------------------------------------------------
   if (sensors.getDeviceCount() == 0)
   {
-    tempSensorPresent = false;
+    tempSensorPresent = false;                       // temperature sensor not installed
   }
   else
   {
-    // temperature sensor installed - set it up and get initial value
-    tempSensorPresent = true;
-    sensors.setResolution(tempSensor, 10);     // Set the resolution to 12 bit (9bit=0.50C; 10bit=0.25C; 11bit=0.125C; 12bit=0.0625C)
-    sensors.requestTemperatures();             // Get the Temperatures
-    currentTemperature = getTemperature();
+    tempSensorPresent = true;                               // temperature sensor installed - set it up and get initial value
+    sensors.setResolution(tempSensor, TEMP_RESOLUTION);     // Set the resolution
+    sensors.requestTemperatures();                          // Get the Temperatures
+    currentTemperature = getTemperature();                  // Save current temperature
   }
+  //-----------------------------------------------------------------------------------------------------------
+  
 }
-//------------------------------------------------------------------
+//=============================================================================================================
 
-//------------------------------------------------------------------
+//=============================================================================================================
 // Main Loop
-//------------------------------------------------------------------
+//=============================================================================================================
+
 void loop()
 {
   // process the command string when a hash arrives:
@@ -337,37 +378,55 @@ void loop()
     
     // Adjust speed according to distance yet to travel
     int distance = currentPosition - targetPosition;
-    if (abs(distance) > speedThreshold) {
-      motorSpeed = motorSpeedHi;
+    if (abs(distance) > MOTOR_SPEED_THRESHOLD) {
+      motorSpeed = MOTOR_SPEED_HI;
     } else {
-      motorSpeed = motorSpeedLo;
+      motorSpeed = MOTOR_SPEED_LO;
     }
     
     // Going Anticlockwise to lower position
     if (targetPosition < currentPosition) {
-      anticlockwise();
+      for (int i=0; i < MOTOR_STEPS_PER_DRIVER_STEP; i++)
+      {
+        anticlockwise();
+      }
+      
       currentPosition--;
     }
     
     // Going Clockwise to higher position
     if (targetPosition > currentPosition) {
-      clockwise();
+      for (int i=0; i < MOTOR_STEPS_PER_DRIVER_STEP; i++)
+      {
+        clockwise();
+      }
+      
       currentPosition++;
     }
        
-    // save new position in EEPROM
-    savePosition(currentPosition);
-
   } else {
+    clearOutput();
     isMoving = false;
+    
+    // save new position in EEPROM if it has changed
+    if (currentPosition != lastSavedPosition)
+    {
+      savePosition(currentPosition);
+      lastSavedPosition = currentPosition;
+    }
+    
   }
 
 }
-//------------------------------------------------------------------
+//=============================================================================================================
 
-//------------------------------------------------------------------
+//=============================================================================================================
+// Events
+//=============================================================================================================
+
+//----------------------------------------------------------------------------
 // SerialEvent occurs whenever new data comes in the serial RX. 
-//------------------------------------------------------------------
+//----------------------------------------------------------------------------
 void serialEvent() {
   while (Serial.available()) {
     // get the new byte:
@@ -380,5 +439,7 @@ void serialEvent() {
     } 
   }
 }
-//------------------------------------------------------------------
+//----------------------------------------------------------------------------
+
+//=============================================================================================================
 
