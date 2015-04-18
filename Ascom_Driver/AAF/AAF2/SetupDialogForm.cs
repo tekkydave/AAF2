@@ -90,5 +90,10 @@ namespace ASCOM.AAF2
         {
 
         }
+
+        private void chkTrace_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

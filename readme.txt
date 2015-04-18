@@ -1,4 +1,4 @@
-AAF2 Release 2.3.0
+AAF2 Release 2.4.0
 ======================
 This requires the Ascom platform 6.1 to be installed first from the Ascom website (http://ascom-standards.org/)
 
@@ -10,6 +10,8 @@ It will install:
 - The Ascom driver for the focuser. This is a windows COM object which should be registered by the installer. 
 - A command-line test program, AAF2Test that just reports the focuser version (#V command) from the arduino. 
 - A GUI client program, FocusAAF2 that allows full control of the focuser. This is also a work in progress.
+
+Note: If you have a previous version of AAF2 installed then uninstall it first before installing the latest version.
 
 2) An Arduino sketch (AAF2.ino)
 - This needs to be uploaded to the Arduino in your focuser.
@@ -27,6 +29,29 @@ It will install:
    Install the two libraries before trying to Compile & Upload the sketch to your Arduino device.
 
 See the Wiki section of this project for detailed build instructions.
+
+Changes in Version 2.4.0
+------------------------
+Enhancements:
+* The Arduino sketch has the following changes:
+   - Amended to step the motor in single half-steps not 8 per unit. (One unit is a single step from the driver/application's point of view).
+     The number of half-steps to execute per unit of movement is set in MOTOR_STEPS_PER_DRIVER_STEP
+	 Set this to 8 (default) to keep the existing behaviour. If you want finer movement lower it as required (may need some experimentation).
+
+   - Moved user-configurable parameters to a single block at top of code for easier location / modification
+   - Reduced number of read/write operations to/from EEPROM. This should lengthen the life of the EEPROM storage.
+   - Reduced no of calls to clear the output pins in loop()
+   - Some general code and structure tidying
+
+* The Ascom Driver has the following changes:
+   - Driver Registration should now work correctly (woohoo). The Setup project has had the correct Registry entries added.
+
+   - The trace files are now created in the 'Trace' directory which is a sub-directory of the installation directory. The directory is created
+     automatically during installation so no more creating it manually. The location is stored in the Registry so the Driver can access it.
+
+   - The 'Trace on' option in the Ascom Chooser dialog is now unset automatically when the Driver exits. If you need to trace the Driver during
+     normal use you will need to tick it every time you use the Driver. This is to save the disk filling up if you forget to turn it off.
+
 
 Changes in Version 2.3.0
 ------------------------

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ASCOM.Utilities;
+using Microsoft.Win32;
 
 namespace ASCOM.AAF2
 {
@@ -14,10 +15,15 @@ namespace ASCOM.AAF2
         private static string driverInfo = "Ascom-Arduino Focuser V2.";     // Driver Info String
         private static string name = "AAF2";                                // Driver Short Name
         private TraceLogger tl;
+        const string traceDirRegKey = "HKEY_LOCAL_MACHINE\\SOFTWARE\\ASCOM\\Focuser Drivers\\ASCOM.AAF2.Focuser";   // Registry Key of Trace Dir Location
 
         public AAF2(bool traceState)
         {
-            tl = new TraceLogger("c:\\trace\\AAF2\\AAF2" + DateTime.Now.ToString("yyyyMMddHHmmss"), "AAF2_aaf2");      // Trace Logger
+            string traceDir = getTraceDir();   // Get the trace dir from registry.
+            if (traceDir == "")                // if no value set it to C:\
+                traceDir = "c:\\";
+
+            tl = new TraceLogger(traceDir + "\\AAF2" + DateTime.Now.ToString("yyyyMMddHHmmss"), "AAF2_aaf2");      // Trace Logger
             tl.Enabled = traceState;
             tl.LogMessage("AAF2", "Constructed");
         }
@@ -192,5 +198,12 @@ namespace ASCOM.AAF2
             tl.LogMessage("AAF2.halt", "Received: " + r);
             tl.LogMessage("AAF2.halt", "Focuser has stopped");
         }
+
+        public string getTraceDir()
+        {
+            string traceDir = (string)Registry.GetValue(traceDirRegKey, "TraceFileDir", "");
+            return traceDir;
+        }
+
     }
 }

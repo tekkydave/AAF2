@@ -32,6 +32,7 @@
 // 07/10/2014   tekkydave   2.2.1   Amended to use stored position from focuser
 //                                  Changed Initial Position field behaviour. Now only sets
 //                                  focuser initial position if not blank.
+// 18/04/2015   tekkydave   2.4.0   see readme.txt
 // ----------------------------------------------------------------------------------------
 //
 
@@ -129,7 +130,13 @@ namespace ASCOM.AAF2
         {
             ReadProfile(); // Read device configuration from the ASCOM Profile store
 
-            tl = new TraceLogger("c:\\trace\\AAF2\\Driver" + DateTime.Now.ToString("yyyyMMddHHmmss"), "AAF2_Driver");      // tekkydave - Added path to trace file
+            aaf2 = new AAF2(traceState);  // tekkydave - instantiate aaf2 object for Arduino calls, passing in the tracestate.
+
+            string traceDir = aaf2.getTraceDir();   // tekkydave - get the trace dir from registry.
+            if (traceDir == "")                     // if no value set it to C:\
+                traceDir = "c:\\";
+
+            tl = new TraceLogger(traceDir + "\\Driver" + DateTime.Now.ToString("yyyyMMddHHmmss"), "AAF2_Driver");      // tekkydave - Added path to trace file
             tl.Enabled = traceState;
             tl.LogMessage("Focuser", "Starting initialisation");
 
@@ -137,9 +144,15 @@ namespace ASCOM.AAF2
             utilities = new Util(); //Initialise util object
             astroUtilities = new AstroUtils(); // Initialise astro utilities object
             //TODO: Implement your additional construction here
-            aaf2 = new AAF2(traceState);  // tekkydave - instantiate aaf2 object for Arduino calls, passing in the tracestate.
             tl.LogMessage("Focuser", "Completed initialisation");
         }
+
+        ~Focuser()  // Destructor - added by tekkydave to clear tracestate in profile ALWAYS.
+        {
+            traceState = false;
+            WriteProfile();
+        }
+
 
 
         //

@@ -1032,18 +1032,6 @@
                 {
                 }
             }
-            "{994432C3-9487-495D-8656-3E829A8DBDDE}:_3159940B70A94D5496C3F234017D6DBE"
-            {
-            "DefaultLocation" = "8:C:\\trace\\AAF2"
-            "Name" = "8:Trace Files"
-            "AlwaysCreate" = "11:TRUE"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Property" = "8:TRACEDIR"
-                "Folders"
-                {
-                }
-            }
             "{1525181F-901A-416C-8A58-119130FE478E}:_78BB554F42B04E73B4DCBF355BB87F7C"
             {
             "Name" = "8:#1919"
@@ -1076,6 +1064,17 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_5FC880E3D0FF48049B92D37F22B7D1BA"
+                    {
+                    "Name" = "8:Trace"
+                    "AlwaysCreate" = "11:TRUE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_EA7DF4E55EA247CEBE5BE26D9DAE3D41"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
         }
@@ -1095,7 +1094,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:AAF2.Focuser"
         "ProductCode" = "8:{C326670A-A717-4467-9159-C2A4C1553982}"
-        "PackageCode" = "8:{AE782CCF-C7DF-4B68-8653-06A991071902}"
+        "PackageCode" = "8:{86F02A7F-C826-4E54-9449-8FDE0C0E9F7E}"
         "UpgradeCode" = "8:{6BA40FD1-50EB-444C-9017-A8D8A9C527E2}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -1166,6 +1165,14 @@
                                                 }
                                                 "Values"
                                                 {
+                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_31538ECC64604DD1908D4B673544061E"
+                                                    {
+                                                    "Name" = "8:TraceFileDir"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:[TARGETDIR]Trace"
+                                                    }
                                                     "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_93F4D05BADE542F4A179BCFD0FD7DC3A"
                                                     {
                                                     "Name" = "8:"

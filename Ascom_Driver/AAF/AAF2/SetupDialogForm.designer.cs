@@ -105,6 +105,7 @@ namespace ASCOM.AAF2
             this.chkTrace.TabIndex = 6;
             this.chkTrace.Text = "Trace on";
             this.chkTrace.UseVisualStyleBackColor = true;
+            this.chkTrace.CheckedChanged += new System.EventHandler(this.chkTrace_CheckedChanged);
             // 
             // comboBoxComPort
             // 

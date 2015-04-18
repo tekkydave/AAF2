@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Win32;
 
 namespace AAF2Test
 {
     class Program
     {
+        const string traceDirRegKey = "HKEY_LOCAL_MACHINE\\SOFTWARE\\ASCOM\\Focuser Drivers\\ASCOM.AAF2.Focuser";
+            
         static void Main(string[] args)
         {
             string id = ASCOM.DriverAccess.Focuser.Choose("");
@@ -21,6 +24,9 @@ namespace AAF2Test
             Console.WriteLine("description " + focuser.Description);
             Console.WriteLine("DriverInfo " + focuser.DriverInfo);
             Console.WriteLine("driverVersion " + focuser.DriverVersion);
+
+            // Output the trace file key and dir
+            Console.WriteLine("Trace Files Directory at " + traceDirRegKey + " is " + getTraceDir());
 
             // Connect to Focusser
             focuser.Connected = true;
@@ -53,6 +59,12 @@ namespace AAF2Test
             Console.WriteLine("Received: " + r);
             Console.WriteLine("------- F I N I S H -------------");
             Console.WriteLine();
+        }
+
+        private static string getTraceDir()
+        {
+            string traceDir = (string)Registry.GetValue(traceDirRegKey, "TraceFileDir", "");
+            return traceDir;
         }
 
     }
