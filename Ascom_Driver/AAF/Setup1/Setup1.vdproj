@@ -1064,13 +1064,24 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_5FC880E3D0FF48049B92D37F22B7D1BA"
+                }
+            }
+            "{1525181F-901A-416C-8A58-119130FE478E}:_E42C1DC96DC24D74A6C047CE0006922A"
+            {
+            "Name" = "8:#1918"
+            "AlwaysCreate" = "11:FALSE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Property" = "8:PersonalFolder"
+                "Folders"
+                {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_75471A928FD84D55AC84E1C9B14DDD59"
                     {
-                    "Name" = "8:Trace"
+                    "Name" = "8:AAF2Trace"
                     "AlwaysCreate" = "11:TRUE"
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
-                    "Property" = "8:_EA7DF4E55EA247CEBE5BE26D9DAE3D41"
+                    "Property" = "8:_F41DF3E8774147759FA067E0494EA33D"
                         "Folders"
                         {
                         }
@@ -1094,7 +1105,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:AAF2.Focuser"
         "ProductCode" = "8:{C326670A-A717-4467-9159-C2A4C1553982}"
-        "PackageCode" = "8:{86F02A7F-C826-4E54-9449-8FDE0C0E9F7E}"
+        "PackageCode" = "8:{014BE4B0-2AA9-4E16-B835-C88EA26965B4}"
         "UpgradeCode" = "8:{6BA40FD1-50EB-444C-9017-A8D8A9C527E2}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -1165,14 +1176,6 @@
                                                 }
                                                 "Values"
                                                 {
-                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_31538ECC64604DD1908D4B673544061E"
-                                                    {
-                                                    "Name" = "8:TraceFileDir"
-                                                    "Condition" = "8:"
-                                                    "Transitive" = "11:FALSE"
-                                                    "ValueTypes" = "3:1"
-                                                    "Value" = "8:[TARGETDIR]Trace"
-                                                    }
                                                     "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_93F4D05BADE542F4A179BCFD0FD7DC3A"
                                                     {
                                                     "Name" = "8:"
@@ -1180,6 +1183,14 @@
                                                     "Transitive" = "11:FALSE"
                                                     "ValueTypes" = "3:1"
                                                     "Value" = "8:ASCOM Focuser Driver for AAF2"
+                                                    }
+                                                    "{ADCFDA98-8FDD-45E4-90BC-E3D20B029870}:_F251479D96CF4559BD29687ECD3ED72D"
+                                                    {
+                                                    "Name" = "8:TraceFileDir"
+                                                    "Condition" = "8:"
+                                                    "Transitive" = "11:FALSE"
+                                                    "ValueTypes" = "3:1"
+                                                    "Value" = "8:[PersonalFolder]AAF2Trace"
                                                     }
                                                 }
                                             }

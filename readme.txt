@@ -9,7 +9,8 @@ The 3 project components are:
 It will install: 
 - The Ascom driver for the focuser. This is a windows COM object which should be registered by the installer. 
 - A command-line test program, AAF2Test that just reports the focuser version (#V command) from the arduino. 
-- A GUI client program, FocusAAF2 that allows full control of the focuser. This is also a work in progress.
+- A GUI client program, FocusAAF2 that allows full control of the focuser. This is also a work in progress. It is intended for testing
+  and is not designed to be a full-blown focuser application. There are many fine fully-featured applications that can use this driver.
 
 Note: If you have a previous version of AAF2 installed then uninstall it first before installing the latest version.
 
@@ -30,12 +31,15 @@ Note: If you have a previous version of AAF2 installed then uninstall it first b
 
 See the Wiki section of this project for detailed build instructions.
 
+I have only tested the Ascom Driver on Windows 7 32-bit and 64-bit systems but it should work fine on any Windows version with the correct
+ASCOM Platform installed. If you have any comments or suggestions please feed them back via the SourceForge project pages.
+
 Changes in Version 2.4.0
 ------------------------
 Enhancements:
 * The Arduino sketch has the following changes:
    - Amended to step the motor in single half-steps not 8 per unit. (One unit is a single step from the driver/application's point of view).
-     The number of half-steps to execute per unit of movement is set in MOTOR_STEPS_PER_DRIVER_STEP
+     The number of half-steps to execute per unit of movement is set in #define MOTOR_STEPS_PER_DRIVER_STEP
 	 Set this to 8 (default) to keep the existing behaviour. If you want finer movement lower it as required (may need some experimentation).
 
    - Moved user-configurable parameters to a single block at top of code for easier location / modification
@@ -46,8 +50,11 @@ Enhancements:
 * The Ascom Driver has the following changes:
    - Driver Registration should now work correctly (woohoo). The Setup project has had the correct Registry entries added.
 
-   - The trace files are now created in the 'Trace' directory which is a sub-directory of the installation directory. The directory is created
-     automatically during installation so no more creating it manually. The location is stored in the Registry so the Driver can access it.
+   - The trace files are now created in the AAF2Trace directory which is a sub-directory of the user's Personal Documents Folder.
+     Normally this will be at C:\Users\<Username>\Documents but may be different if your system is non-standard. There is usually a
+	 shortcut in Windows Explorer to 'My Documents' which is the same location. The AAF2Trace sub-directory is created automatically
+	 during installation so there is no longer a need to create it manually. The location is stored in the Registry so the Driver can
+	 access it.
 
    - The 'Trace on' option in the Ascom Chooser dialog is now unset automatically when the Driver exits. If you need to trace the Driver during
      normal use you will need to tick it every time you use the Driver. This is to save the disk filling up if you forget to turn it off.
