@@ -21,8 +21,8 @@
 //                         Fixed minor bug in motor hi/lo speed detection
 //                         Temperature now in 100ths of degree for internationlisation
 //                         Block temperature requests during focuser movement
-// 2.4.0       08/12/2014  Amended to step in single half-steps not 8 per unit
-//                         Moved user-configurable parameters to a dingle block at top of code
+// 2.4.0       18/04/2015  Amended to step in single half-steps not 8 per unit
+//                         Moved user-configurable parameters to a single block at top of code
 //                         Reduced number of read/write operations to/from EEPROM
 //                         Reduced no of calls to clear the output pins in loop()
 //                         Some general code and structure tidying
@@ -41,7 +41,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 const int motorPins[4] = {7,8,9,10};                      // Declare pins to drive motor control board
 #define ONE_WIRE_BUS                    6                 // DS18B20 DATA wire connected to Digital Pin 6
-#define MOTOR_STEPS_PER_DRIVER_STEP     1                 // Motor steps per Ascom movement Unit (old method = 8)
+#define MOTOR_STEPS_PER_DRIVER_STEP     8                 // Motor steps per Ascom movement Unit (old method = 8)
 #define MOTOR_SPEED_DEFAULT             16000             // Default motor step speed (uS)(failsafe operation)
 #define MOTOR_SPEED_LO                  16000             // Motor step delay for Lo speed (uS)
 #define MOTOR_SPEED_HI                  2000              // Motor step delay for Hi speed (uS)
